@@ -6,38 +6,44 @@ namespace App\Model;
 use DB;
 use Laravel\Database\Exception;
 
-class CidadesDAO {
+class BairrosDAO {
 
   public function getRules(){
-    return array('nome' => 'required|min:3|max:64',);
+    return array('nome' => 'required|min:3|max:64',
+                  'id_cidade' => 'required',
+    );
   }
 
-
   public function listagem(){
-    $query = DB::table('cidades as tb')
-              ->select( 'tb.id', 'tb.nome')
+    $query = DB::table('bairros as tb')
+              ->select( 'tb.id', 'tb.nome', 'tb.id_cidade', 'c.nome as cidade_nome', 'c.uf')
+              ->join('cidades as c','c.id','=','tb.id_cidade')
               ->orderBy('tb.nome');
-    $retorno = $query->get();
+    $retorno = $query->paginate(20);
     return $retorno;
   }
 
-
-  public function getById($id){
-    $query = DB::table('cidades as tb')
-              ->select('tb.id', 'tb.nome')
-              ->where('tb.id','=',$id);
-    $retorno = $query->get();
-    if ($retorno->count() > 0) {
-      return $retorno;
-    } else {
-      return null;
-    }
+  public function novo(){
+    		//$retorno = new StdClass; //array('id'=>0,'descricao'=>'');
+    		//$retorno->id = 0;
+    		//$retorno->descricao = '';
+    		$retorno = array('id'=>0, 'nome'=>'','id_cidade' => null);
+    		return (object)$retorno; // Retorna um new StdClass;
   }
 
+  public function getById($id){
+    $query = DB::table('bairros as tb')
+              ->select( 'tb.id', 'tb.nome', 'tb.id_cidade', 'c.nome as cidade_nome', 'c.uf')
+              ->join('cidades as c','c.id','=','tb.id_cidade')
+              ->where('tb.id','=',$id);
+              // Retorna apenas um registro. Se não encontra, retorna null
+    $retorno = $query->first();
+    return $retorno;
+  }
 
   public function insert($array){
     try {
-      $id = DB::table('cidades')->insertGetId($array);
+      $id = DB::table('bairros')->insertGetId($array);
       return (object)array( 'id' => $id,
                             'status' => 200,
                             'mensagem' => 'Criado com sucesso');
@@ -48,7 +54,6 @@ class CidadesDAO {
     }
   }
 
-
   public function update($id, $array){
     $model = $this->getById($id);
 
@@ -57,7 +62,7 @@ class CidadesDAO {
                             'mensagem'=>'Não encontrado');
     }
     try {
-      $affected = DB::table('cidades')
+      $affected = DB::table('bairros')
                     ->where('id',$id)
                     ->update($array);
       $retorno = ($affected == 1) ? 200 : 204;
@@ -77,10 +82,9 @@ class CidadesDAO {
     return $retorno;
   }
 
-
   public function delete($id)
   {
-    $affected = DB::table('cidades')
+    $affected = DB::table('bairros')
                 ->where('id',$id)
                 ->delete();
     if ($affected == 1) {

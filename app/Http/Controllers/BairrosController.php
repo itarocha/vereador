@@ -2,95 +2,140 @@
 
 namespace App\Http\Controllers;
 
+use App\Model\BairrosDAO;
 use App\Model\CidadesDAO;
 
 use Illuminate\Http\Request;
-
 use App\Http\Requests;
+use Validator;
+use Session;
 
 class BairrosController extends Controller
 {
-
     protected $dao;
 
-    public function __construct(CidadesDAO $dao)
+    // Injeta o DAO no construtor
+    public function __construct(BairrosDAO $dao)
     {
-      $this->dao = $dao;
+        $this->dao = $dao;
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    private function getCidades(){
+      $cidades = new CidadesDAO();
+      return $cidades->listagem();
+    }
+
+    // GET /bairros
     public function index()
     {
-        return view("bairros.index")->with('titulo','Listagem de Bairros');
+        $model = $this->dao->listagem();
+
+        return view("bairros.index")
+        ->with('model',$model)
+        ->with('titulo','Listagem de Bairros');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    // GET /bairros/create
+    // Chama form de inclusão
     public function create()
     {
-        //
+        // Controle de postback
+        $titulo = Session::get('titulo', null);
+        $model = Session::get('model', null);
+
+    		$titulo = $titulo ?  $titulo : 'Novo Bairro';
+        $model = $model ? $model : $this->dao->novo();
+
+        // o form de inclusão e edição são os mesmos
+    		return view('bairros.edit')
+          			->with('model',$model)
+                ->with('cidades',$this->getCidades())
+          			->with('titulo',$titulo);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    // GET /bairros/{id}/edit
+    // Chama form de exclusão
     public function edit($id)
     {
-        //
+      // Controle de postback
+      $titulo = Session::get('titulo', null);
+      $model = Session::get('model', null);
+
+      $titulo = $titulo ?  $titulo : 'Editar Bairro';
+  		$model = $model ? $model : $this->dao->getById($id);
+
+      if (is_null($model)){
+        //return Response::json('Não encontrado...', 404);
+        throw new NotFoundHttpException;
+      }
+      // o form de inclusão e edição são os mesmos
+      return view('bairros.edit')
+              ->with('model',$model)
+              ->with('cidades',$this->getCidades())
+              ->with('titulo',$titulo);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
+    // POST /bairros
+    // Inclusão e Edição utilizam POST, portanto vem para esse método
+    // Descobre se é inclusão pela presença do "id"
+    public function store(Request $request)
     {
-        //
+        $editando = false;
+        $id = $request->input('id');
+        $editando = $id;
+        $all = $request->all();
+        // Valida campos apartir das regras estabelecidas no DAO injetado
+        $validator = Validator::make($all, $this->dao->getRules());
+        if ($validator->fails()){
+          $model = (object)$all;
+          if ($editando) {
+            return redirect()
+                    ->route('bairros.edit', [$id])
+                    ->with('model',$model)
+                    ->with('titulo','Editar Bairro')
+                    ->withErrors($validator);
+          } else {
+            return redirect()
+                    ->route('bairros.create')
+                    ->with('model',$model)
+                    ->withErrors($validator)
+                    ->with('titulo','Novo Bairro');
+          }
+        } // end validator.fails
+
+        // Aproveita somente os campos para gravação
+        $all = $request->only(['nome','id_cidade']);
+        if ($editando){
+          $retorno = $this->dao->update($id,$all);
+        } else {
+          $retorno = $this->dao->insert($all);
+        }
+        return redirect('bairros');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    // GET /bairros/{id}/delete
+    // Chamará o formulário para confirmação de deleção
+    public function delete($id)
+    {
+        $titulo = 'Confirma Exclusão do Bairro?';
+        $model = $this->dao->getById($id);
+        return view('bairros.delete')
+                ->with('model',$model)
+                ->with('titulo',$titulo);
+    }
+
+    // DELETE/POST /cidades/{id}
+    // Exclusão propriamente dita.
     public function destroy($id)
     {
-        //
+        $retorno = $this->dao->delete($id);
+        return redirect('bairros');
     }
+
+    // Não serve para nada. Veja store
+    public function update(Request $request, $id){}
+
+    // Não está sendo utilizado
+    public function show($id){}
 }
+// 'end_date' => Carbon::now()->addDays(10)

@@ -26,6 +26,7 @@ Route::get('cidades/{id}/delete', 'CidadesController@delete');
 Route::resource('cidades', 'CidadesController');
 
 
+Route::get('bairros/{id}/delete', 'BairrosController@delete');
 Route::resource('bairros', 'BairrosController');
 Route::resource('contatos', 'ContatosController');
 

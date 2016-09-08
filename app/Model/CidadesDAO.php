@@ -60,7 +60,7 @@ class CidadesDAO {
     $query = DB::table('cidades as tb')
               ->select( 'tb.id', 'tb.nome', 'tb.uf')
               ->orderBy('tb.nome');
-    $retorno = $query->paginate(10);
+    $retorno = $query->paginate(20);
     return $retorno;
   }
 
