@@ -19,14 +19,52 @@ class CidadesController extends Controller
         $this->dao = $dao;
     }
 
-    // GET /cidades
-    public function index()
+    private function montaQuery(Request $request)
     {
-        $model = $this->dao->listagem();
+      $retorno = array();
 
+      if ($request->input('q_campo') && $request->input('q_opcao') && $request->input('q_valor')) {
+
+        $opcao = $request->input('q_opcao');
+        switch ($opcao) {
+          case 'igual':
+            $opcao = "=";
+            break;
+          case 'diferente':
+            $opcao = "<>";
+            break;
+          case 'like':
+            $opcao = "like";
+            break;
+          default:
+            $opcao = null;
+            break;
+        }
+        if ($opcao){
+          $retorno[] = $request->input('q_campo');
+          $retorno[] = $request->input('q_opcao');
+          $retorno[] = $request->input('q_valor');
+        }
+      }
+      return $retorno;
+    }
+
+    // GET /cidades
+    public function index(Request $request)
+    {
+        $q = $this->montaQuery($request);
+        $model = $this->dao->listagem($q);
+
+        // Método para setar os parâmetros
+        foreach ($request->query as $key => $value){
+          $model->appends([$key => $value]);
+        }
+
+        //$model->setPath('custom/url');
         return view("cidades.index")
-        ->with('model',$model)
-        ->with('titulo','Listagem de Cidades');
+          ->with('model',$model)
+          ->with('q',$q)
+          ->with('titulo','Listagem de Cidades');
     }
 
     // GET /cidades/create

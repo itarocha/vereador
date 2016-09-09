@@ -56,11 +56,35 @@ class CidadesDAO {
                   'uf' => 'required|min:2|max:2');
   }
 
-  public function listagem(){
+  public function listagem($q){
     $query = DB::table('cidades as tb')
               ->select( 'tb.id', 'tb.nome', 'tb.uf')
               ->orderBy('tb.nome');
-    $retorno = $query->paginate(20);
+    if (count($q) == 3){
+
+      switch ($q[1]) {
+        case 'igual':
+          $opcao = "=";
+          break;
+        case 'diferente':
+          $opcao = "<>";
+          break;
+        case 'like':
+          $opcao = "like";
+          break;
+        default:
+          $opcao = "=";
+          break;
+      }
+
+      if ($q[1] == "like"){
+        $query->where('tb.'.$q[0],$opcao,"%".$q[2]."%");
+      } else {
+        $query->where('tb.'.$q[0],$opcao,$q[2]);
+      }
+    }
+
+    $retorno = $query->paginate(5);
     return $retorno;
   }
 
@@ -68,7 +92,7 @@ class CidadesDAO {
   		//$retorno = new StdClass; //array('id'=>0,'descricao'=>'');
   		//$retorno->id = 0;
   		//$retorno->descricao = '';
-  		$retorno = array('id'=>0,'nome'=>'','uf' => 'MG');
+  		$retorno = array('id'=>0, 'nome'=>'','uf' => 'MG');
   		return (object)$retorno; // Retorna um new StdClass;
   }
 

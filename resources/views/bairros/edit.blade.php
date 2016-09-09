@@ -32,7 +32,7 @@ $(function(){
   <div class="row">
     <div class="col-md-12 pt-20">
      <input type="submit" class="btn btn-success" value="Gravar">
-     <a href="/cidades" class="btn btn-default">Voltar</a>
+     <a href="/bairros" class="btn btn-default">Voltar</a>
     </div>
   </div>
 </form>
