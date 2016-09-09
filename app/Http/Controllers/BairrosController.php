@@ -22,7 +22,7 @@ class BairrosController extends Controller
 
     private function getCidades(){
       $cidades = new CidadesDAO();
-      return $cidades->listagem();
+      return $cidades->listagem(array(), 0);
     }
 
     // GET /bairros

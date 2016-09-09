@@ -1,11 +1,12 @@
 <!-- cidades.edit -->
 @extends('layouts.default')
 @section('content')
-<!-- <script>
+
+<script>
 $(function(){
-	$("#descricao").focus();
+	$("#nome").focus();
 });
-</script> -->
+</script>
 
 
 <form action="/cidades" method="POST">

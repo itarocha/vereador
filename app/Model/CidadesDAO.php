@@ -56,12 +56,13 @@ class CidadesDAO {
                   'uf' => 'required|min:2|max:2');
   }
 
-  public function listagem($q){
+  public function listagem($q = array(), $porPagina = 10){
     $query = DB::table('cidades as tb')
               ->select( 'tb.id', 'tb.nome', 'tb.uf')
               ->orderBy('tb.nome');
-    if (count($q) == 3){
 
+
+    if ($q && count($q) == 3){
       switch ($q[1]) {
         case 'igual':
           $opcao = "=";
@@ -84,7 +85,15 @@ class CidadesDAO {
       }
     }
 
-    $retorno = $query->paginate(5);
+
+
+
+    if ( isset($porPagina) && ($porPagina > 0)){
+        $retorno = $query->paginate($porPagina);
+    } else {
+      $retorno = $query->get();
+    }
+
     return $retorno;
   }
 
