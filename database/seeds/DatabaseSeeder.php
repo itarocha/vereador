@@ -24,16 +24,16 @@ class UsersTableSeeder extends Seeder {
 
     public function run()
     {
-        //$usuarios = User::get();
+        $usuarios = User::get();
 
-        //if($usuarios->count() == 0) {
+        if($usuarios->count() == 0) {
             User::create(array(
                 'email' => 'admin@gmail.com',
                 'password' => Hash::make('admin'),
                 'name'  => 'Administrador',
                 //'tipo'  => 'admin'
             ));
-        //}
+        }
     }
 
 }
