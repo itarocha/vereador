@@ -1,4 +1,4 @@
-@extends('layouts.default')
+@extends('layouts.tema')
 @section('content')
 
 <div>
@@ -7,7 +7,7 @@
 
 @if (count($model) > 0)
 <div class="container-fluid">
-		<table class="table table-striped">
+		<table class="table table-bordered table-striped">
 			<thead>
 				<tr>
           <th>Bairro</th>

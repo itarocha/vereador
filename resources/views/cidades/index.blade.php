@@ -1,10 +1,10 @@
-@extends('layouts.default')
+@extends('layouts.tema')
 @section('content')
 
+<a href="/cidades/create" class="btn btn-primary">Nova Cidade</a>
 <div class="container-fluid">
-  <div class="row">
-    <a href="/cidades/create" class="btn btn-primary">Nova Cidade</a>
-  </div>
+<!-- <div class="row">
+  </div> -->
   <form method="GET" class="navbar-form navbar-left" role="search">
     <div class="form-group">
       <select class="form-control" name="q_campo">
@@ -24,7 +24,7 @@
 
 
 @if (count($model) > 0)
-		<table class="table table-striped">
+		<table class="table table-bordered table-striped">
 			<thead>
 				<tr>
           <th>Nome</th>

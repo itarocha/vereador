@@ -15,7 +15,8 @@ class ContatosController extends Controller
 
     public function __construct(CidadesDAO $dao)
     {
-        $this->dao = $dao;
+      $this->middleware('auth');
+      $this->dao = $dao;
     }
 
     /**

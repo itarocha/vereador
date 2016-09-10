@@ -1,5 +1,5 @@
 <!-- bairros.edit -->
-@extends('layouts.default')
+@extends('layouts.tema')
 @section('content')
 <script>
 $(function(){

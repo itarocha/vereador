@@ -16,7 +16,8 @@ class CidadesController extends Controller
     // Injeta o DAO no construtor
     public function __construct(CidadesDAO $dao)
     {
-        $this->dao = $dao;
+      $this->middleware('auth');
+      $this->dao = $dao;
     }
 
     private function montaQuery(Request $request)
