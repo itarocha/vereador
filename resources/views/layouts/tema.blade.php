@@ -99,7 +99,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="" href="index.html"><span class="navbar-brand"><span class="fa fa-thumbs-o-up"></span> Um Vereador de Verdade</span></a></div>
+          <a class="" href="index.html"><span class="navbar-brand"><span class="fa fa-thumbs-o-up"></span> {{ config('app.name', 'Laravel') }}</span></a></div>
 
         <div class="navbar-collapse collapse" style="height: 1px;">
 
