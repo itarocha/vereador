@@ -26,8 +26,12 @@ CREATE TABLE `bairros` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `id_cidade` int(11) NOT NULL,
   `nome` varchar(64) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `bairros_un01` (`nome`,`id_cidade`),
+  KEY `bairros_idx01` (`nome`),
+  KEY `bairros_fk01_idx` (`id_cidade`),
+  CONSTRAINT `bairros_fk01` FOREIGN KEY (`id_cidade`) REFERENCES `cidades` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -36,6 +40,7 @@ CREATE TABLE `bairros` (
 
 LOCK TABLES `bairros` WRITE;
 /*!40000 ALTER TABLE `bairros` DISABLE KEYS */;
+INSERT INTO `bairros` VALUES (2,1,'Barreiro'),(6,3,'Filadélfia'),(1,1,'Floresta'),(4,12,'Trezidela'),(3,2,'Tubalina');
 /*!40000 ALTER TABLE `bairros` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -50,8 +55,10 @@ CREATE TABLE `cidades` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nome` varchar(64) NOT NULL,
   `uf` varchar(2) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `cidades_un01` (`nome`),
+  KEY `cidades_idx01` (`uf`)
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -60,7 +67,7 @@ CREATE TABLE `cidades` (
 
 LOCK TABLES `cidades` WRITE;
 /*!40000 ALTER TABLE `cidades` DISABLE KEYS */;
-INSERT INTO `cidades` VALUES (1,'Belo Horizonte','MG'),(2,'Uberlândia','MG'),(3,'Betim','MG'),(4,'Contagem','MG'),(11,'Ourinhos','GO'),(12,'Caxias','MA'),(13,'Prata','MG'),(15,'Blumenau','SP');
+INSERT INTO `cidades` VALUES (1,'Belo Horizonte','MG'),(2,'Uberlândia','MG'),(3,'Betim','MG'),(4,'Contagem','MG'),(11,'Ourinhos','GO'),(12,'Caxias','MA'),(13,'Prata','MG'),(15,'Blumenau','SC'),(16,'Uberaba','MG'),(17,'Belo Monte','MG'),(18,'Montes Claros','MG'),(19,'Patrocínio','MG'),(20,'Caldas Novas','GO'),(21,'Lima Duarte','MG'),(22,'Itabirito','MG'),(23,'Nova Iguaçu','RJ');
 /*!40000 ALTER TABLE `cidades` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -95,11 +102,12 @@ CREATE TABLE `contatos` (
   `id_usuario_ligou` int(11) DEFAULT NULL,
   `data_hora_ligou` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
+  UNIQUE KEY `pessoas_un01` (`cpf`),
   KEY `pessoas_idx01` (`nome`),
   KEY `pessoas_idx02` (`data_nascimento`),
   KEY `pessoas_idx03` (`id_bairro`),
   KEY `pessoas_idx04` (`data_hora_ligou`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -108,7 +116,87 @@ CREATE TABLE `contatos` (
 
 LOCK TABLES `contatos` WRITE;
 /*!40000 ALTER TABLE `contatos` DISABLE KEYS */;
+INSERT INTO `contatos` VALUES (1,'Itamar Rocha Chaves Junior','1972-06-29','28289579349','15456','354','120','Av. Imbaúba','1400','Bl. 05 ap 204',1,'38413064','34984214666','34984214662','34984214665','34984214660','34984214668',1,'2016-09-11 21:35:30','N',NULL,NULL),(2,'Fernanda Beraldo Barbosa','1978-11-02','04439703607','--','','','Av. Brasil','4513','Apto 304',2,'38400355','3432225813','','','','',1,'2016-09-11 22:29:15','S',2,'2016-09-11 22:45:15');
 /*!40000 ALTER TABLE `contatos` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `migrations`
+--
+
+DROP TABLE IF EXISTS `migrations`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `migrations` (
+  `migration` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `batch` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `migrations`
+--
+
+LOCK TABLES `migrations` WRITE;
+/*!40000 ALTER TABLE `migrations` DISABLE KEYS */;
+INSERT INTO `migrations` VALUES ('2014_10_12_000000_create_users_table',1),('2014_10_12_100000_create_password_resets_table',1);
+/*!40000 ALTER TABLE `migrations` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `password_resets`
+--
+
+DROP TABLE IF EXISTS `password_resets`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `password_resets` (
+  `email` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `token` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  KEY `password_resets_email_index` (`email`),
+  KEY `password_resets_token_index` (`token`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `password_resets`
+--
+
+LOCK TABLES `password_resets` WRITE;
+/*!40000 ALTER TABLE `password_resets` DISABLE KEYS */;
+INSERT INTO `password_resets` VALUES ('itarocha@gmail.com','6bd13783e91bade81c3a1b094cdd55a45f6f25a3255c9f5204419cca54cf75f6','2016-09-10 23:29:15');
+/*!40000 ALTER TABLE `password_resets` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `users`
+--
+
+DROP TABLE IF EXISTS `users`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `users` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `email` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `password` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `remember_token` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `users_email_unique` (`email`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `users`
+--
+
+LOCK TABLES `users` WRITE;
+/*!40000 ALTER TABLE `users` DISABLE KEYS */;
+INSERT INTO `users` VALUES (1,'Itamar Rocha','itarocha@gmail.com','$2y$10$2yDJaTPbNknLQ.DgEXl42u6gVfbD1JwRQY5Jd1Sb1JnxkSl3tQCd2','TGGp8Gv1VQFuY9Im2dpFAfmeu8vZkoEsDZlteLCic3iazTf8vGmZORukVC9v','2016-09-10 15:41:42','2016-09-10 23:28:16'),(2,'Administrador','admin@gmail.com','$2y$10$6GW.zS1UeRwhZY.79XHhyOo7vVRY9zeULmXpRBua4PCjPivvA0Rrm',NULL,'2016-09-11 00:12:19','2016-09-11 00:12:19');
+/*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -120,4 +208,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-09-07 17:03:21
+-- Dump completed on 2016-09-11 23:23:23
