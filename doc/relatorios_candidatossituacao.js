@@ -69,6 +69,19 @@ $(document).ready(function() {
     });
 });
 
+// <li class="form-li w-3 <?php echo (isset($this->formErrosMsg['cod_processo_seletivo'])) ? 'form-invalido' : ''; ?>">
+//     <label class="input-label f-left">Processo Seletivo:</label>
+//     <select name="cod_processo_seletivo" id="cod_processo_seletivo" class="f-left input-select">
+//         <?php if (isset($this->rsProcessos) && count($this->rsProcessos) >= 0) { ?>
+//             <option value="">Selecione uma opção ...</option>
+//         <?php } ?>
+//         <?php foreach ($this->rsProcessos as $key => $value) { ?>
+//             <option value="<?php echo $value['cod_processo_seletivo'] ?>"<?php echo (isset($this->formVal['cod_processo_seletivo']) && !empty($this->formVal['cod_processo_seletivo']) && ($this->formVal['cod_processo_seletivo'] == $value['cod_processo_seletivo'])) ? 'selected="selected"' : ''; ?>> <?php echo $value['nom_processo_seletivo'] ?></option>
+//         <?php } ?>
+//     </select>
+//     <?php echo $this->ErrorFormat((isset($this->formErrosMsg['cod_processo_seletivo']) ? $this->formErrosMsg['cod_processo_seletivo'] : null), 'errorUl'); ?>
+// </li>
+
 function carregarProcessos(){
     $('#cod_processo_seletivo').html('<option value="">Aguarde...</option>');
     $.post(LINK_DEFAULT + 'recrutador/relatorios/ajaxbuscaprocessos/',
