@@ -139,6 +139,14 @@ class ContatosController extends Controller
         $editando = $id;
         $all = $request->all();
         // Valida campos apartir das regras estabelecidas no DAO injetado
+
+        $all['cpf'] = str_replace('.', '', $all['cpf']);
+        $all['cpf'] = str_replace('-', '', $all['cpf']);
+        $all['cep'] = str_replace('-', '', $all['cep']);
+
+        //dd($all);
+        //str_replace('_', ' ', $str)
+
         $validator = Validator::make($all, $this->dao->getRules());
         if ($validator->fails()){
           $model = (object)$all;
@@ -181,6 +189,11 @@ class ContatosController extends Controller
           'id_usuario_ligou',
           'data_hora_ligou'
         ]);
+        // De novo esse código???
+        $all['cpf'] = str_replace('.', '', $all['cpf']);
+        $all['cpf'] = str_replace('-', '', $all['cpf']);
+        $all['cep'] = str_replace('-', '', $all['cep']);
+
         if ($editando){
           $data_nascimento = Carbon\Carbon::createFromFormat('d/m/Y', $all['data_nascimento'])->toDateString();
           $all['data_nascimento'] = $data_nascimento;
@@ -194,6 +207,7 @@ class ContatosController extends Controller
           $all['data_nascimento'] = $data_nascimento;
           //Remover `id_usuario_ligou`, `data_hora_ligou`
           $retorno = $this->dao->insert($all);
+          //dd($retorno);
         }
         return redirect('contatos');
     }
