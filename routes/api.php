@@ -13,9 +13,9 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::get('/user', function (Request $request) {
-    return $request->user();
-})->middleware('auth:api');
+// Route::get('/user', function (Request $request) {
+//     return $request->user();
+// })->middleware('auth:api');
 
 
-Route::post('ajax/bairrosporcidade', 'AjaxController@bairrosporcidade');
+Route::get('/ajax/bairrosporcidade', 'AjaxController@bairrosporcidade');

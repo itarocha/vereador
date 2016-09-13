@@ -8,7 +8,7 @@ $(document).ready(function() {
 function carregarBairros(){
     $('#id_bairro').html('<option value="">Aguarde...</option>');
 
-    $.post('/api/ajax/bairrosporcidade/',
+    $.get('/api/ajax/bairrosporcidade/',
     {
       id_cidade: $('#id_cidade').val(),
       id_bairro: $('#old_id_bairro').val()
