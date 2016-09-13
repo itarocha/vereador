@@ -17,7 +17,7 @@ class BairrosController extends Controller
     // Injeta o DAO no construtor
     public function __construct(BairrosDAO $dao)
     {
-      $this->middleware('auth');
+      //$this->middleware('auth')->except('ajaxbairrosporcidade');
       $this->dao = $dao;
     }
 

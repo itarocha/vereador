@@ -8,11 +8,12 @@ $(function(){
 });
 </script>
 
-<!-- {{ Auth::user()->id }} -->
+<script src="/js/contatos_edit.js" type="text/javascript"></script>
 
 <form action="/contatos" method="POST">
    {{ csrf_field() }}
 	 <input type="hidden" id="id" name="id" value="{{ $model->id }}">
+	 <input type="hidden" id="old_id_bairro" name="old_id_bairro" value="{{ $model->id_bairro }}">
 	 <input type="hidden" id="ligou" name="ligou" value="{{ $model->ligou }}">
 	 <input type="hidden" id="id_usuario_cadastro" name="id_usuario_cadastro" value="{{ $model->id_usuario_cadastro }}">
 	 <input type="hidden" id="data_hora_cadastro" name="data_hora_cadastro" value="{{ $model->data_hora_cadastro }}">
@@ -48,6 +49,8 @@ $(function(){
        <input type="text" class="input-text f-left" id="zona" name="zona" value="{{ $model->zona }}">
      </div>
    </div> <!-- end linha -->
+
+
 	 <div class="row">
      <div class="col-md-6">
        <label for="endereco" class="input-label f-left">Endereço:</label>
@@ -66,15 +69,29 @@ $(function(){
    </div> <!-- end linha -->
 
 	 <div class="row">
-     <div class="col-md-8">
-       <label for="endereco" class="input-label f-left">Bairro:</label>
-       <input type="text" class="input-text f-left" id="id_bairro" name="id_bairro" value="{{ $model->id_bairro }}">
+		 <div class="col-md-4">
+			 <label for="secao" class="input-label f-left">CEP:</label>
+			 <input type="text" class="input-text f-left" id="cep" name="cep" value="{{ $model->cep }}">
+		 </div>
+
+     <div class="col-md-4">
+       <label for="id_cidade" class="input-label f-left">Cidade:</label>
+
+			 <select class="input-text f-left" name="id_cidade" id="id_cidade">
+				 @foreach($cidades as $cidade)
+         	<option value="{{ $cidade->id }}" {{ $model->id_cidade == $cidade->id ? 'selected="selected"' : '' }}>{{ $cidade->nome }} - {{ $cidade->uf }}</option>
+         @endforeach
+       </select>
+
      </div>
 
- 		<div class="col-md-4">
-       <label for="secao" class="input-label f-left">CEP:</label>
-       <input type="text" class="input-text f-left" id="cep" name="cep" value="{{ $model->cep }}">
+		 <div class="col-md-4">
+       <label for="id_bairro" class="input-label f-left">Bairro:</label>
+
+			 <select class="input-text f-left" name="id_bairro" id="id_bairro">
+       </select>
      </div>
+
    </div> <!-- end linha -->
 
 	 <div class="row">
@@ -95,12 +112,12 @@ $(function(){
    </div> <!-- end linha -->
 
 	 <div class="row">
-		 <div class="col-md-8">
+		 <div class="col-md-6">
        <label for="telefone4" class="input-label f-left">Telefone 4:</label>
        <input type="text" class="input-text f-left" id="telefone4" name="telefone4" value="{{ $model->telefone4 }}">
      </div>
 
-		 <div class="col-md-4">
+		 <div class="col-md-6">
        <label for="telefone5" class="input-label f-left">Telefone 5:</label>
        <input type="text" class="input-text f-left" id="telefone5" name="telefone5" value="{{ $model->telefone5 }}">
      </div>

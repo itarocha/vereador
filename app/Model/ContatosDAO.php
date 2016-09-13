@@ -96,7 +96,7 @@ class ContatosDAO {
                         'tb.complemento',
                         'tb.id_bairro',
                         'b.nome as nome_bairro',
-                        'b.id as id_cidade',
+                        'c.id as id_cidade',
                         'c.nome as nome_cidade',
                         'c.uf',
                         'tb.cep',
@@ -162,6 +162,7 @@ class ContatosDAO {
                 'endereco'=>'',
                 'numero'=>'',
                 'complemento'=>'',
+                'id_cidade'=>'',
                 'id_bairro'=>'',
                 'cep'=>'',
                 'telefone1'=>'',
@@ -190,6 +191,12 @@ class ContatosDAO {
                         'tb.numero',
                         'tb.complemento',
                         'tb.id_bairro',
+
+                        'b.nome as nome_bairro',
+                        'c.id as id_cidade',
+                        'c.nome as nome_cidade',
+                        'c.uf',
+
                         'tb.cep',
                         'tb.telefone1',
                         'tb.telefone2',
@@ -202,6 +209,11 @@ class ContatosDAO {
                         'tb.id_usuario_ligou',
                         'tb.data_hora_ligou'
                         )
+
+              ->join('bairros as b','b.id','=','tb.id_bairro')
+              ->join('cidades as c','c.id','=','b.id_cidade')
+
+
               ->where('tb.id','=',$id)
               ->orderBy('tb.nome');
     // Retorna apenas um registro. Se não encontra, retorna null

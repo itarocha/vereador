@@ -14,6 +14,16 @@ class BairrosDAO {
     );
   }
 
+  public function listagemPorCidade($id_cidade){
+    $query = DB::table('bairros as tb')
+              ->select( 'tb.id', 'tb.nome')
+              ->join('cidades as c','c.id','=','tb.id_cidade')
+              ->where('tb.id_cidade','=',$id_cidade)
+              ->orderBy('tb.nome');
+    $retorno = $query->get();
+    return $retorno;
+  }
+
   public function listagem(){
     $query = DB::table('bairros as tb')
               ->select( 'tb.id', 'tb.nome', 'tb.id_cidade', 'c.nome as cidade_nome', 'c.uf')

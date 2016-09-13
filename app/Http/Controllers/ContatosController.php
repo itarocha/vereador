@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Model\ContatosDAO;
+use App\Model\CidadesDAO;
 
 use Illuminate\Http\Request;
 use App\Http\Requests;
@@ -86,10 +87,16 @@ class ContatosController extends Controller
     		$titulo = $titulo ?  $titulo : 'Novo Contato';
         $model = $model ? $model : $this->dao->novo();
 
+
+        $cidadesDAO = new CidadesDAO();
+        $cidades = $cidadesDAO->listagem(null, 0);
+
+        //dd($cidades);
+
         // o form de inclusão e edição são os mesmos
     		return view('contatos.edit')
           			->with('model',$model)
-                //->with('estados',$this->dao->getEstados())
+                ->with('cidades',$cidades)
           			->with('titulo',$titulo);
     }
 
@@ -112,10 +119,13 @@ class ContatosController extends Controller
       // mudar display da data de nascimento
       $model->data_nascimento = $model->data_nascimento ? date('d/m/Y', strtotime($model->data_nascimento)) : '';
 
+      $cidadesDAO = new CidadesDAO();
+      $cidades = $cidadesDAO->listagem(null, 0);
+
       // o form de inclusão e edição são os mesmos
       return view('contatos.edit')
               ->with('model',$model)
-              //->with('estados',$this->dao->getEstados())
+              ->with('cidades',$cidades)
               ->with('titulo',$titulo);
     }
 
@@ -174,6 +184,7 @@ class ContatosController extends Controller
         if ($editando){
           $data_nascimento = Carbon\Carbon::createFromFormat('d/m/Y', $all['data_nascimento'])->toDateString();
           $all['data_nascimento'] = $data_nascimento;
+
           $retorno = $this->dao->update($id,$all);
         } else {
           $all['id_usuario_cadastro'] = Auth::user()->id;

@@ -170,5 +170,6 @@ class CidadesController extends Controller
 
     // Não está sendo utilizado
     public function show($id){}
+
 }
 // 'end_date' => Carbon::now()->addDays(10)
