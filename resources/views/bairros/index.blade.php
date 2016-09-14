@@ -1,6 +1,12 @@
 @extends('layouts.tema')
 @section('content')
 
+<!-- bairros.index -->
+
+<script>
+var p = {!! json_encode($pesquisa) !!};
+</script>
+
 <div>
   <a href="/bairros/create" class="btn btn-primary">Novo Bairro</a>
 </div>

@@ -54,6 +54,10 @@ class ContatosController extends Controller
       return $retorno;
     }
 
+    public function buildCamposPesquisa(){
+      return $this->dao->getEstados();
+    }
+
     // GET /cidades
     public function index(Request $request)
     {
@@ -68,6 +72,7 @@ class ContatosController extends Controller
         //$model->setPath('custom/url');
         return view("contatos.index")
           ->with('model',$model)
+          ->with('campos',$this->buildCamposPesquisa())
           ->with('q',$q)
           ->with('titulo','Listagem de Contatos');
     }

@@ -1,8 +1,13 @@
 @extends('layouts.tema')
 @section('content')
 
+<script>
+var c = {!! json_encode($campos) !!};
+</script>
+
+<div id="teste"></div>
 <a href="/contatos/create" class="btn btn-primary">Novo Contato</a>
-<div class="container-fluid">
+<div id="container-main" class="container-fluid">
 <!-- <div class="row">
   </div> -->
   <form method="GET" class="navbar-form navbar-left" role="search">

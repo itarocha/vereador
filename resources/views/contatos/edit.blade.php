@@ -1,7 +1,6 @@
 <!-- cidades.edit -->
 @extends('layouts.tema')
 @section('content')
-
 <script>
 $(function(){
 	$("#nome").focus();

@@ -21,6 +21,14 @@ class BairrosController extends Controller
       $this->dao = $dao;
     }
 
+    private function montaCamposPesquisa(){
+      return array(
+          (object)array('nome' => 'id', 'tipo' => 'number'),
+          (object)array('nome' => 'nome', 'tipo' => 'string'),
+          );
+    }
+
+
     private function getCidades(){
       $cidades = new CidadesDAO();
       return $cidades->listagem(array(), 0);
@@ -32,6 +40,7 @@ class BairrosController extends Controller
         $model = $this->dao->listagem();
 
         return view("bairros.index")
+        ->with('pesquisa',$this->montaCamposPesquisa())
         ->with('model',$model)
         ->with('titulo','Listagem de Bairros');
     }

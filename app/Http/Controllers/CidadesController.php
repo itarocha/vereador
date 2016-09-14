@@ -20,6 +20,13 @@ class CidadesController extends Controller
       $this->dao = $dao;
     }
 
+    private function montaCamposPesquisa(){
+      return array(
+          (object)array('name' => 'nome', 'type' => 'text', 'display' => 'Cidade'),
+          (object)array('name' => 'uf', 'type' => 'text', 'display' => 'UF' ),
+          );
+    }
+
     private function montaQuery(Request $request)
     {
       $retorno = array();
@@ -65,6 +72,7 @@ class CidadesController extends Controller
         return view("cidades.index")
           ->with('model',$model)
           ->with('q',$q)
+          ->with('pesquisa',$this->montaCamposPesquisa())
           ->with('titulo','Listagem de Cidades');
     }
 
