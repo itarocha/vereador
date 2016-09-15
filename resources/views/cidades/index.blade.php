@@ -3,8 +3,6 @@
 
 <!-- cidades.index -->
 
-
-
 <a href="/cidades/create" class="btn btn-primary">Nova Cidade</a>
 <div class="container-fluid">
 <!-- <div class="row">

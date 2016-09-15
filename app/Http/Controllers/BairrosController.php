@@ -7,6 +7,8 @@ use App\Model\CidadesDAO;
 
 use Illuminate\Http\Request;
 use App\Http\Requests;
+use App\Model\PetraOpcaoFiltro;
+use App\Util\PetraInjetorFiltro;
 use Validator;
 use Session;
 
@@ -21,28 +23,30 @@ class BairrosController extends Controller
       $this->dao = $dao;
     }
 
-    private function montaCamposPesquisa(){
-      return array(
-          (object)array('nome' => 'id', 'tipo' => 'number'),
-          (object)array('nome' => 'nome', 'tipo' => 'string'),
-          );
-    }
-
-
     private function getCidades(){
       $cidades = new CidadesDAO();
-      return $cidades->listagem(array(), 0);
+      return $cidades->all(0);
     }
 
     // GET /bairros
-    public function index()
+    public function index(Request $request)
     {
-        $model = $this->dao->listagem();
+        // Consulta
+        $query = new PetraOpcaoFiltro();
+        PetraInjetorFiltro::injeta($request, $query);
 
+        $model = $this->dao->listagemComFiltro($query);
+        // Carrega parâmetros do get (query params)
+        foreach ($request->query as $key => $value){
+           $model->appends([$key => $value]);
+        }
+
+        //$model->setPath('custom/url');
         return view("bairros.index")
-        ->with('pesquisa',$this->montaCamposPesquisa())
-        ->with('model',$model)
-        ->with('titulo','Listagem de Bairros');
+          ->with('model',$model)
+          ->with('query',$query)
+          ->with('pesquisa',$this->dao->getCamposPesquisa())
+          ->with('titulo','Listagem de Bairros');
     }
 
     // GET /bairros/create

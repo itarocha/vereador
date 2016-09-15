@@ -5,6 +5,7 @@ namespace App\Model;
 
 use DB;
 use Laravel\Database\Exception;
+use App\Model\PetraOpcaoFiltro;
 
 class BairrosDAO {
 
@@ -12,6 +13,25 @@ class BairrosDAO {
     return array('nome' => 'required|min:3|max:64',
                   'id_cidade' => 'required',
     );
+  }
+
+  public function getCamposPesquisa(){
+    return array(
+        (object)array('name' => 'tb.nome', 'type' => 'text', 'display' => 'Bairro'),
+        (object)array('name' => 'c.nome', 'type' => 'text', 'display' => 'Cidade' ),
+        (object)array('name' => 'uf', 'type' => 'text', 'display' => 'UF' ),
+        );
+  }
+
+  public function all($porPagina = 10)
+  {
+    $q = new PetraOpcaoFiltro();
+    return $this->getListagem($q, $porPagina);
+  }
+
+  public function listagemComFiltro(PetraOpcaoFiltro $q, $porPagina = 10)
+  {
+      return $this->getListagem($q, $porPagina);
   }
 
   public function listagemPorCidade($id_cidade){
@@ -24,13 +44,34 @@ class BairrosDAO {
     return $retorno;
   }
 
-  public function listagem(){
+  private function getListagem(PetraOpcaoFiltro $q, $porPagina = 10){
     $query = DB::table('bairros as tb')
               ->select( 'tb.id', 'tb.nome', 'tb.id_cidade', 'c.nome as cidade_nome', 'c.uf')
               ->join('cidades as c','c.id','=','tb.id_cidade')
               ->orderBy('tb.nome');
-    $retorno = $query->paginate(20);
-    return $retorno;
+
+      // montagem de pesquisa
+      if (($q != null) && ($q->valido))
+      {
+        if ($q->op == "like")
+        {
+          $query->where($q->campo,"like","%".$q->valor_principal."%");
+        } else
+        if ($q->op == "between")
+        {
+           $query->whereBetween($q->campo,[$q->valor_principal, $q->valor_complemento]);
+        } else {
+          $query->where($q->campo,$q->op,$q->valor_principal);
+        }
+      }
+
+      if ( isset($porPagina) && ($porPagina > 0)){
+          $retorno = $query->paginate($porPagina);
+      } else {
+        $retorno = $query->get();
+      }
+
+      return $retorno;
   }
 
   public function novo(){

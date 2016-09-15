@@ -11,6 +11,8 @@ var p = {!! json_encode($pesquisa) !!};
   <a href="/bairros/create" class="btn btn-primary">Novo Bairro</a>
 </div>
 
+@include('partials.pesquisa')
+
 @if (count($model) > 0)
 <div class="container-fluid">
 		<table class="table table-bordered table-striped">

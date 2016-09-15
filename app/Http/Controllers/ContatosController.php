@@ -82,7 +82,6 @@ class ContatosController extends Controller
     public function create(Request $request)
     {
       //dd(Auth::user());
-
        //dd($request->session());
 
         // Controle de postback
@@ -94,7 +93,7 @@ class ContatosController extends Controller
 
 
         $cidadesDAO = new CidadesDAO();
-        $cidades = $cidadesDAO->listagem(null, 0);
+        $cidades = $cidadesDAO->all(0);
 
         //dd($cidades);
 
@@ -122,10 +121,11 @@ class ContatosController extends Controller
       }
 
       // mudar display da data de nascimento
-      $model->data_nascimento = $model->data_nascimento ? date('d/m/Y', strtotime($model->data_nascimento)) : '';
+      $model->data_nascimento = $model->data_nascimento ? date('d/m/Y', 
+                                        strtotime($model->data_nascimento)) : '';
 
       $cidadesDAO = new CidadesDAO();
-      $cidades = $cidadesDAO->listagem(null, 0);
+      $cidades = $cidadesDAO->all(0);
 
       // o form de inclusão e edição são os mesmos
       return view('contatos.edit')

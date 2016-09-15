@@ -56,37 +56,43 @@ class CidadesDAO {
                   'uf' => 'required|min:2|max:2');
   }
 
-  public function listagem($q = array(), $porPagina = 10){
+  public function getCamposPesquisa(){
+    return array(
+        (object)array('name' => 'nome', 'type' => 'text', 'display' => 'Cidade'),
+        (object)array('name' => 'uf', 'type' => 'text', 'display' => 'UF' ),
+        );
+  }
+
+  public function all($porPagina = 10)
+  {
+    $q = new PetraOpcaoFiltro();
+    return $this->getListagem($q, $porPagina);
+  }
+
+  public function listagemComFiltro(PetraOpcaoFiltro $q, $porPagina = 10)
+  {
+      return $this->getListagem($q, $porPagina);
+  }
+
+  private function getListagem(PetraOpcaoFiltro $q, $porPagina = 10){
     $query = DB::table('cidades as tb')
               ->select( 'tb.id', 'tb.nome', 'tb.uf')
               ->orderBy('tb.nome');
 
-
-    if ($q && count($q) == 3){
-      switch ($q[1]) {
-        case 'igual':
-          $opcao = "=";
-          break;
-        case 'diferente':
-          $opcao = "<>";
-          break;
-        case 'like':
-          $opcao = "like";
-          break;
-        default:
-          $opcao = "=";
-          break;
-      }
-
-      if ($q[1] == "like"){
-        $query->where('tb.'.$q[0],$opcao,"%".$q[2]."%");
+    // montagem de pesquisa
+    if (($q != null) && ($q->valido))
+    {
+      if ($q->op == "like")
+      {
+        $query->where('tb.'.$q->campo,"like","%".$q->valor_principal."%");
+      } else
+      if ($q->op == "between")
+      {
+         $query->whereBetween('tb.'.$q->campo,[$q->valor_principal, $q->valor_complemento]);
       } else {
-        $query->where('tb.'.$q[0],$opcao,$q[2]);
+        $query->where('tb.'.$q->campo,$q->op,$q->valor_principal);
       }
     }
-
-
-
 
     if ( isset($porPagina) && ($porPagina > 0)){
         $retorno = $query->paginate($porPagina);

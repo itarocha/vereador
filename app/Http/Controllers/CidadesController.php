@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Model\PetraOpcaoFiltro;
+use App\Util\PetraInjetorFiltro;
 use App\Model\CidadesDAO;
 
 use Illuminate\Http\Request;
@@ -16,63 +18,28 @@ class CidadesController extends Controller
     // Injeta o DAO no construtor
     public function __construct(CidadesDAO $dao)
     {
-      $this->middleware('auth');
-      $this->dao = $dao;
-    }
-
-    private function montaCamposPesquisa(){
-      return array(
-          (object)array('name' => 'nome', 'type' => 'text', 'display' => 'Cidade'),
-          (object)array('name' => 'uf', 'type' => 'text', 'display' => 'UF' ),
-          );
-    }
-
-    private function montaQuery(Request $request)
-    {
-      $retorno = array();
-
-      if ($request->input('q_campo') && $request->input('q_opcao') && $request->input('q_valor')) {
-
-        $opcao = $request->input('q_opcao');
-        switch ($opcao) {
-          case 'igual':
-            $opcao = "=";
-            break;
-          case 'diferente':
-            $opcao = "<>";
-            break;
-          case 'like':
-            $opcao = "like";
-            break;
-          default:
-            $opcao = null;
-            break;
-        }
-        if ($opcao){
-          $retorno[] = $request->input('q_campo');
-          $retorno[] = $request->input('q_opcao');
-          $retorno[] = $request->input('q_valor');
-        }
-      }
-      return $retorno;
+        $this->middleware('auth');
+        $this->dao = $dao;
     }
 
     // GET /cidades
     public function index(Request $request)
     {
-        $q = $this->montaQuery($request);
-        $model = $this->dao->listagem($q);
+        // Consulta
+        $query = new PetraOpcaoFiltro();
+        PetraInjetorFiltro::injeta($request, $query);
 
-        // Método para setar os parâmetros
+        $model = $this->dao->listagemComFiltro($query);
+        // Carrega parâmetros do get (query params)
         foreach ($request->query as $key => $value){
-          $model->appends([$key => $value]);
+           $model->appends([$key => $value]);
         }
 
         //$model->setPath('custom/url');
         return view("cidades.index")
           ->with('model',$model)
-          ->with('q',$q)
-          ->with('pesquisa',$this->montaCamposPesquisa())
+          ->with('query',$query)
+          ->with('pesquisa',$this->dao->getCamposPesquisa())
           ->with('titulo','Listagem de Cidades');
     }
 
