@@ -3,8 +3,45 @@
     var p = {!! json_encode($pesquisa) !!};
     var query = {!! json_encode($query) !!};
     var comparacao = [{"display":"Igual a", "name":"igual"},
+                      {"display":"Diferente de", "name":"diferente"},
                       {"display":"Semelhante a", "name":"semelhante"},
-                      {"display":"Diferente de", "name":"diferente"} ];
+                      {"display":"Entre", "name":"entre"}
+                    ];
+
+
+    $('#q_campo').on('change', function(e){
+      var optionSelected = $("option:selected", this);
+      var valueSelected = this.value;
+      var index = this.selectedIndex;
+      var tipo = p[index].type;
+
+      if (tipo == 'date'){
+        $("#q_valor_principal").mask("99/99/9999");
+        $("#q_valor_complemento").mask("99/99/9999");
+      } else {
+        $("#q_valor_principal").unmask();
+        $("#q_valor_complemento").unmask();
+
+        //$("#q_valor_principal").val("");
+        //$("#q_valor_complemento").val("");
+      }
+    });
+
+    $('#q_operador').on('change', function(e){
+      var optionSelected = $("option:selected", this);
+      var valueSelected = this.value;
+      var index = this.selectedIndex;
+      var tipo = comparacao[index].name;
+
+      //alert(tipo);
+
+      if (tipo == 'entre'){
+        $("#q_valor_complemento").show();
+      } else {
+        $("#q_valor_complemento").hide();
+      }
+    });
+
     // name, type, display
 
     // Montagem dos campos de seleção
@@ -31,8 +68,13 @@
           }
     }); // end forEach
 
+    $( "#q_campo" ).trigger( "change" );
+    $( "#q_operador" ).trigger( "change" );
+
     // Valor selecionado
     $('#q_valor_principal').val(query.valor_principal);
+    $('#q_valor_complemento').val(query.valor_complemento);
+
   });
 </script>
 
