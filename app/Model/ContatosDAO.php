@@ -109,10 +109,13 @@ class ContatosDAO {
                         'tb.data_hora_cadastro',
                         'tb.ligou',
                         'tb.id_usuario_ligou',
+                        'u.name as nome_usuario_ligou',
                         'tb.data_hora_ligou'
                         )
                         ->join('bairros as b','b.id','=','tb.id_bairro')
                         ->join('cidades as c','c.id','=','b.id_cidade')
+                        ->leftJoin('users as u', 'u.id', '=', 'tb.id_usuario_ligou')
+
               ->orderBy('tb.nome');
 
 

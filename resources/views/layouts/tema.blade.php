@@ -29,6 +29,8 @@
     <link rel="stylesheet" type="text/css" href="/stylesheets/premium.css">
     <link href="{{ URL::asset('css/complemento.css') }}" rel="stylesheet">
 
+    <script src="/lib/bootstrap/js/bootstrap.js"></script>
+
 </head>
 <body class=" theme-blue">
 
@@ -104,9 +106,6 @@
 
         <div class="navbar-collapse collapse" style="height: 1px;">
 
-
-
-
           <ul class="nav navbar-nav navbar-right">
               <!-- Authentication Links -->
               @if (Auth::guest())
@@ -132,7 +131,7 @@
                               </a>
 
                               <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
-                                  {{ csrf_field() }}
+                                    {{ csrf_field() }}
                               </form>
                           </li>
                       </ul>
@@ -475,7 +474,7 @@
     </div>
 
 
-    <script src="/lib/bootstrap/js/bootstrap.js"></script>
+    <!-- <script src="/lib/bootstrap/js/bootstrap.js"></script> -->
     <script type="text/javascript">
         $("[rel=tooltip]").tooltip();
         $(function() {

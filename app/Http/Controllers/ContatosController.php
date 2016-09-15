@@ -121,7 +121,7 @@ class ContatosController extends Controller
       }
 
       // mudar display da data de nascimento
-      $model->data_nascimento = $model->data_nascimento ? date('d/m/Y', 
+      $model->data_nascimento = $model->data_nascimento ? date('d/m/Y',
                                         strtotime($model->data_nascimento)) : '';
 
       $cidadesDAO = new CidadesDAO();
@@ -234,6 +234,13 @@ class ContatosController extends Controller
     {
         $retorno = $this->dao->delete($id);
         return redirect('contatos');
+    }
+
+    // GET /contatos/ligar
+    // Liga para o contato
+    public function ligar(Request $request)
+    {
+      dd('chamou contatos/ligar post');
     }
 
     // Não serve para nada. Veja store

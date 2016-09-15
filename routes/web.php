@@ -33,6 +33,8 @@ Route::resource('cidades', 'CidadesController');
 
 Route::get('bairros/{id}/delete', 'BairrosController@delete');
 Route::resource('bairros', 'BairrosController');
+
+Route::post('contatos/ligar', 'ContatosController@ligar');
 Route::resource('contatos', 'ContatosController');
 
 Route::resource('home', 'HomeController', ['only' => [
