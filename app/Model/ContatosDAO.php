@@ -5,50 +5,14 @@ namespace App\Model;
 
 use DB;
 use Laravel\Database\Exception;
+use App\Model\PetraOpcaoFiltro;
 
 class ContatosDAO {
 
   protected $_estados;
 
   public function __construct(){
-      $this->buildEstados();
-  }
-
-  // Essa função vai sair daqui
-  private function buildEstados(){
-    $this->_estados = array(
-        (object)array('id' => 'AC', 'nome' => 'Acre'),
-        (object)array('id' => 'AL', 'nome' => 'Alagoas'),
-        (object)array('id' => 'AP', 'nome' => 'Amapá'),
-        (object)array('id' => 'AM', 'nome' => 'Amazonas'),
-        (object)array('id' => 'BA', 'nome' => 'Bahia'),
-        (object)array('id' => 'CE', 'nome' => 'Ceará'),
-        (object)array('id' => 'DF', 'nome' => 'Distrito Federal'),
-        (object)array('id' => 'ES', 'nome' => 'Espírito Santo'),
-        (object)array('id' => 'GO', 'nome' => 'Goiás'),
-        (object)array('id' => 'MA', 'nome' => 'Maranhão'),
-        (object)array('id' => 'MT', 'nome' => 'Mato Grosso'),
-        (object)array('id' => 'MS', 'nome' => 'Mato Grosso do Sul'),
-        (object)array('id' => 'MG', 'nome' => 'Minas Gerais'),
-        (object)array('id' => 'PA', 'nome' => 'Pará'),
-        (object)array('id' => 'PB', 'nome' => 'Paraíba'),
-        (object)array('id' => 'PR', 'nome' => 'Paraná'),
-        (object)array('id' => 'PE', 'nome' => 'Pernambuco'),
-        (object)array('id' => 'PI', 'nome' => 'Piauí'),
-        (object)array('id' => 'RJ', 'nome' => 'Rio de Janeiro'),
-        (object)array('id' => 'RN', 'nome' => 'Rio Grande do Norte'),
-        (object)array('id' => 'RS', 'nome' => 'Rio Grande do Sul'),
-        (object)array('id' => 'RO', 'nome' => 'Rondônia'),
-        (object)array('id' => 'RR', 'nome' => 'Roraima'),
-        (object)array('id' => 'SC', 'nome' => 'Santa Catarina'),
-        (object)array('id' => 'SP', 'nome' => 'São Paulo'),
-        (object)array('id' => 'SE', 'nome' => 'Sergipe'),
-        (object)array('id' => 'TO', 'nome' => 'Tocantins'),
-        );
-  }
-
-  public function getEstados(){
-    return $this->_estados;
+      //$this->buildEstados();
   }
 
   public function getRules(){
@@ -82,7 +46,92 @@ class ContatosDAO {
                 );
   }
 
-  public function listagem($q = array(), $porPagina = 10){
+  public function getCamposPesquisa(){
+    return array(
+      (object)array('name' => 'tb.nome', 'type' => 'text', 'display' => 'Nome'),
+      (object)array('name' => 'tb.cpf', 'type' => 'text', 'display' => 'CPF'),
+      (object)array('name' => 'tb.data_nascimento', 'type' => 'date', 'display' => 'Nascimento'),
+      (object)array('name' => 'b.nome', 'type' => 'text', 'display' => 'Bairro'),
+      (object)array('name' => 'c.nome', 'type' => 'text', 'display' => 'Cidade' ),
+      (object)array('name' => 'c.uf', 'type' => 'text', 'display' => 'UF' ),
+      (object)array('name' => 'tb.titulo', 'type' => 'text', 'display' => 'Título' ),
+      (object)array('name' => 'tb.secao', 'type' => 'text', 'display' => 'Seção' ),
+      (object)array('name' => 'tb.zona', 'type' => 'text', 'display' => 'Zona' ),
+        );
+  }
+
+  public function all($porPagina = 10)
+  {
+    $q = new PetraOpcaoFiltro();
+    return $this->getListagem($q, $porPagina);
+  }
+
+  public function listagemComFiltro(PetraOpcaoFiltro $q, $porPagina = 10)
+  {
+      return $this->getListagem($q, $porPagina);
+  }
+
+  private function getListagem(PetraOpcaoFiltro $q, $porPagina = 10)
+  {
+      $query = DB::table('contatos as tb')
+              ->select( 'tb.id',
+                        'tb.nome',
+                        'tb.data_nascimento',
+                        'tb.cpf',
+                        'tb.titulo',
+                        'tb.secao',
+                        'tb.zona',
+                        'tb.endereco',
+                        'tb.numero',
+                        'tb.complemento',
+                        'tb.id_bairro',
+                        'b.nome as nome_bairro',
+                        'c.id as id_cidade',
+                        'c.nome as nome_cidade',
+                        'c.uf',
+                        'tb.cep',
+                        'tb.telefone1',
+                        'tb.telefone2',
+                        'tb.telefone3',
+                        'tb.telefone4',
+                        'tb.telefone5',
+                        'tb.id_usuario_cadastro',
+                        'tb.data_hora_cadastro',
+                        'tb.ligou',
+                        'tb.id_usuario_ligou',
+                        'u.name as nome_usuario_ligou',
+                        'tb.data_hora_ligou'
+                        )
+                        ->join('bairros as b','b.id','=','tb.id_bairro')
+                        ->join('cidades as c','c.id','=','b.id_cidade')
+                        ->leftJoin('users as u', 'u.id', '=', 'tb.id_usuario_ligou')
+              ->orderBy('tb.nome');
+
+      // montagem de pesquisa
+      if (($q != null) && ($q->valido))
+      {
+        if ($q->op == "like")
+        {
+          $query->where($q->campo,"like","%".$q->valor_principal."%");
+        } else
+        if ($q->op == "between")
+        {
+           $query->whereBetween($q->campo,[$q->valor_principal, $q->valor_complemento]);
+        } else {
+          $query->where($q->campo,$q->op,$q->valor_principal);
+        }
+      }
+
+      if ( isset($porPagina) && ($porPagina > 0)){
+          $retorno = $query->paginate($porPagina);
+      } else {
+        $retorno = $query->get();
+      }
+
+      return $retorno;
+  }
+
+  public function ___listagem($q = array(), $porPagina = 10){
     $query = DB::table('contatos as tb')
               ->select( 'tb.id',
                         'tb.nome',
