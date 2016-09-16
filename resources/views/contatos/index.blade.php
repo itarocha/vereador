@@ -69,7 +69,7 @@ $(function(){
 					<td>
 						<a href="/contatos/{{ $item->id }}/edit" class="btn btn-sm btn-default"><span class="text-info fa fa-edit fa-fw"></span> Editar</a>
 						<a href="/contatos/{{ $item->id }}/delete" class="btn btn-sm btn-default"><span class="text-danger fa fa-trash-o fa-fw"></span> Excluir</a>
-            @if($item->ligou == 'N----------')
+            @if($item->ligou == 'N')
             <a class="btn btn-sm btn-default" role="button" data-id="{{ $item->id }}" data-nome="{{ $item->nome }}" data-toggle="modal" data-target="#myModal"><span class="text-info fa fa-phone fa-fw"></span> Ligar</a>
             @endif
 					</td>
@@ -128,20 +128,13 @@ $(function(){
 
 
 
-                      <div class="modal-footer">
-                         <div class="pull-right">
-                            <button type="submit" class="btn btn-success"><i class="glyphicon glyphicon-ok"></i> Logout</button>
-                            <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="glyphicon glyphicon-remove"></i> Cancelar</button>
-                         </div>
-                       </div>
+           <div class="pull-right">
+              <button class="btn btn-success" id="_btLogout"><i class="glyphicon glyphicon-ok"></i> Logout</button>
+
+              <button class="btn btn-danger" data-dismiss="modal"><i class="glyphicon glyphicon-remove"></i> Cancelar</button>
+           </div>
 
 
-
-
-
-
-            <button class="btn btn-default" data-title="Cancelando..."  data-dismiss="modal" aria-hidden="true">Cancelar</button>
-            <button id="form-ligar" class="btn btn-danger" data-title="Ligando..." data-dismiss="modal">Ligar</button>
         </div>
         </form>
 
@@ -152,55 +145,83 @@ $(function(){
 
 
 <script type="text/javascript">
+
 $(document).ready(function(){
-    $("#myModal").on('show.bs.modal', function(event){
-        // Get button that triggered the modal
-        var button = $(event.relatedTarget);
-        // Extract value from data-* attributes
-        var titleData = button.data('id');
-        var nome = button.data('nome');
 
-        //alert(titleData);
+    // $("#myModal").on('show.bs.modal', function(event){
+    //     // Get button that triggered the modal
+    //     var button = $(event.relatedTarget);
+    //     // Extract value from data-* attributes
+    //     var titleData = button.data('id');
+    //     var nome = button.data('nome');
+    //
+    //     //alert(titleData);
+    //
+    //     $(this).find('.modal-title').text(titleData + ' Form');
+    //     $(this).find('.modal-nome').text(nome);
+    // });
 
-        $(this).find('.modal-title').text(titleData + ' Form');
-        $(this).find('.modal-nome').text(nome);
+    $(function(){
+       $('#frmLigar').on('submit', function(e){
+           var postData = $(this).serializeArray();
+           //e.preventDefault();
+            //alert('testando...');
+            alert(postData);
+
+            $.ajax({
+              type: "POST",
+              url: "/logout",
+              data: postData,
+              success: function(data){
+                  alert("Successfully submitted.")
+              },
+              error: function(data){
+                alert("erro");
+              }
+            });
+
+       });
     });
 
-    $(document).ready(function(){
-        $("#myModal").on('hidden.bs.modal', function(event){
+    // este aquiiiiiii
+    $("#_btLogout").on('click', function(event){
+        //alert("xis");
+        var postData = $(this).serializeArray();
+        //e.preventDefault();
+         //alert('testando...');
+         alert(postData);
 
-          //var button = $(event.relatedTarget);
-          // Extract value from data-* attributes
-          //var titleData = button.data('title');
-
-
-            //alert("Modal window has been completely closed. ");
-        });
+         $.ajax({
+           type: "POST",
+           url: "/contatos/ligar",
+           data: postData,
+           success: function(data){
+               alert("Successfully submitted.")
+           },
+           error: function(data){
+             alert("erro "+data);
+           }
+         });
     });
+
+    $("#btLigarXXXXXXXXXXXX").on('click', function(event){
+        ("#frmLogout").submit();
+
+      //var button = $(event.relatedTarget);
+      // Extract value from data-* attributes
+      //var titleData = button.data('title');
+
+
+        //alert("Modal window has been completely closed. ");
+    });
+
+    //$("#myModal").on('hidden.bs.modal', function(event){
+
+
 
 });
 
-
 </script>
-<!--
- <script>
-     $(function(){
-        $('xformligar').on('submit', function(e){
-             alert('testando...');
-             e.preventDefault();
-             $.ajax({
-                 url: "/contatos/ligar",
-                 type: "POST",
-                 data: $("xformligar").serialize(),
-                 success: function(data){
-                     alert("Successfully submitted.")
-                 }
-             });
-        });
-     });
-</script>
-
--->
 
 
 @stop
