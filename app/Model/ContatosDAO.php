@@ -57,6 +57,8 @@ class ContatosDAO {
       (object)array('name' => 'tb.titulo', 'type' => 'text', 'display' => 'Título' ),
       (object)array('name' => 'tb.secao', 'type' => 'text', 'display' => 'Seção' ),
       (object)array('name' => 'tb.zona', 'type' => 'text', 'display' => 'Zona' ),
+      (object)array('name' => 'tb.ligou', 'type' => 'text', 'display' => 'Ligou (S/N)' ),
+      (object)array('name' => 'u.name', 'type' => 'text', 'display' => 'Usuário que ligou ' ),
         );
   }
 

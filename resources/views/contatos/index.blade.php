@@ -3,10 +3,6 @@
 
 
 <script>
-var c = {!! json_encode($campos) !!};
-</script>
-
-<script>
 $(function(){
   $(".btn-modal").click(function(){
     //alert("testando uou");
@@ -21,23 +17,7 @@ $(function(){
 <div id="container-main" class="container-fluid">
 <!-- <div class="row">
   </div> -->
-  <form method="GET" class="navbar-form navbar-left" role="search">
-    <div class="form-group">
-      <select class="form-control" name="q_campo">
-        <option value="nome" {{ ($q and $q[0] == 'nome') ? 'selected="selected"' : '' }}>Cidade</option>
-        <option value="uf" {{ ($q and $q[0] == 'uf') ? 'selected="selected"' : '' }}>UF</option>
-      </select>
-      <select class="form-control" name="q_opcao">
-        <option value="igual" {{ ($q and $q[1] == 'igual') ? 'selected="selected"' : '' }}>Igual a</option>
-        <option value="like" {{ ($q and $q[1] == 'like') ? 'selected="selected"' : '' }}>Semelhante a</option>
-        <option value="diferente" {{ ($q and $q[1] == 'diferente') ? 'selected="selected"' : '' }}>Diferente de</option>
-      </select>
-      <input type="text" class="form-control" placeholder="Conteúdo" name="q_valor"
-        value="{{ $q ? $q[2] : '' }}">
-    </div>
-    <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search" aria-hidden="true"></span> Pesquisar</button>
-  </form>
-
+@include('partials.pesquisa')
 
 @if (count($model) > 0)
 		<table class="table table-bordered table-striped">
@@ -53,7 +33,7 @@ $(function(){
 			@foreach($model as $item)
 				<tr>
           <td>
-            <h4 class="text-warning">{{ $item->nome }}</h4>
+            <h3 class="text-warning">{{ $item->nome }}</h3>
             <p class="info small">{{ date('d/m/Y', strtotime($item->data_nascimento)) }}</p>
           </td>
           <td><h4>{{ $item->nome_bairro }}</h4>
@@ -69,8 +49,9 @@ $(function(){
 					<td>
 						<a href="/contatos/{{ $item->id }}/edit" class="btn btn-sm btn-default"><span class="text-info fa fa-edit fa-fw"></span> Editar</a>
 						<a href="/contatos/{{ $item->id }}/delete" class="btn btn-sm btn-default"><span class="text-danger fa fa-trash-o fa-fw"></span> Excluir</a>
-            @if($item->ligou == 'N----------')
-            <a class="btn btn-sm btn-default" role="button" data-id="{{ $item->id }}" data-nome="{{ $item->nome }}" data-toggle="modal" data-target="#myModal"><span class="text-info fa fa-phone fa-fw"></span> Ligar</a>
+            @if($item->ligou == 'N')
+            <a class="btn btn-sm btn-default" role="button" data-id="{{ $item->id }}" data-nome="{{ $item->nome }}"
+               data-toggle="modal" data-target="#myModal"><span class="text-info fa fa-phone fa-fw"></span> Ligar</a>
             @endif
 					</td>
 				</tr>
@@ -85,122 +66,70 @@ $(function(){
     </div>
 </div>
 
-<!-- Modal -->
-<!-- <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-        <h4 class="modal-title" id="myModalLabel">Modal title</h4>
-      </div>
-      <div class="modal-body">
-        ...
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
-      </div>
-    </div>
-  </div>
-</div> -->
-
 
 @endif
 </div>
 <div class="modal small fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <form>
-  <div class="modal-dialog">
-    <div class="modal-content">
+  <form action="/contatos/ligar" method="post" class="form-horizontal" role="form"  id="frmLigar">
+    <div class="modal-dialog">
+
+      <div class="modal-content">
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
             <h3 id="myModalLabel">Confirmação</h3>
         </div>
+
         <div class="modal-body">
-            <p class="error-text"><i class="fa fa-warning modal-icon"></i>Confirma a ligação para <span class="modal-nome text-danger"></span>?<br>Essa tarefa não pode ser desfeita.</p>
-        </div>
-
-
-        <form action="/logout" method="post" class="form-horizontal" role="form"  id="frmLigar">
-        <div class="modal-footer">
           {{ csrf_field() }}
-
-
-
-                      <div class="modal-footer">
-                         <div class="pull-right">
-                            <button type="submit" class="btn btn-success"><i class="glyphicon glyphicon-ok"></i> Logout</button>
-                            <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="glyphicon glyphicon-remove"></i> Cancelar</button>
-                         </div>
-                       </div>
-
-
-
-
-
-
-            <button class="btn btn-default" data-title="Cancelando..."  data-dismiss="modal" aria-hidden="true">Cancelar</button>
-            <button id="form-ligar" class="btn btn-danger" data-title="Ligando..." data-dismiss="modal">Ligar</button>
+          <input type="hidden" id="nome_contato" name="nome_contato">
+          <input type="hidden" id="id_contato" name="id_contato">
+          <p class="success-text">
+            <i class="fa fa-phone modal-icon"></i>Confirma a ligação para
+              <span class="modal-nome text-danger"></span><br>Essa tarefa não pode ser desfeita.
+          </p>
         </div>
-        </form>
+
+        <div class="modal-footer">
+           <div class="pull-right">
+              <button class="btn btn-success" id="btLigarConfirma"><i class="glyphicon glyphicon-ok"></i> Ligar</button>
+              <button class="btn btn-danger" data-dismiss="modal"><i class="glyphicon glyphicon-remove"></i> Cancelar</button>
+           </div>
+        </div>
 
       </div>
     </div>
+
   </form>
 </div>
 
 
 <script type="text/javascript">
-$(document).ready(function(){
+
+$(function(){
+
     $("#myModal").on('show.bs.modal', function(event){
         // Get button that triggered the modal
         var button = $(event.relatedTarget);
         // Extract value from data-* attributes
-        var titleData = button.data('id');
-        var nome = button.data('nome');
+        var _id = button.data('id');
+        var _nome = button.data('nome');
 
         //alert(titleData);
 
-        $(this).find('.modal-title').text(titleData + ' Form');
-        $(this).find('.modal-nome').text(nome);
+        //$(this).find('.modal-title').text(titleData + ' Form');
+        $(this).find('.modal-nome').text(_nome);
+        $("#nome_contato").val(_nome);
+        $("#id_contato").val(_id);
     });
 
-    $(document).ready(function(){
-        $("#myModal").on('hidden.bs.modal', function(event){
+     $('#btLigarConfirma').on('click', function(e){
+        $( "#frmLigar" ).submit();
+     });
 
-          //var button = $(event.relatedTarget);
-          // Extract value from data-* attributes
-          //var titleData = button.data('title');
-
-
-            //alert("Modal window has been completely closed. ");
-        });
-    });
 
 });
 
-
 </script>
-<!--
- <script>
-     $(function(){
-        $('xformligar').on('submit', function(e){
-             alert('testando...');
-             e.preventDefault();
-             $.ajax({
-                 url: "/contatos/ligar",
-                 type: "POST",
-                 data: $("xformligar").serialize(),
-                 success: function(data){
-                     alert("Successfully submitted.")
-                 }
-             });
-        });
-     });
-</script>
-
--->
 
 
 @stop

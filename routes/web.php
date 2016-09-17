@@ -27,14 +27,16 @@ Route::get('/', function () {
 // Route::post('/cidades/edit', 'CidadesController@postEdit');
 // Route::post('/cidades/delete', 'CidadesController@postDelete');
 
-Route::get('cidades/{id}/delete', 'CidadesController@delete');
+Route::get('cidades/{id}/delete', 'CidadesController@delete')->name('cidades.delete');
 Route::resource('cidades', 'CidadesController');
 
 
-Route::get('bairros/{id}/delete', 'BairrosController@delete');
+Route::get('bairros/{id}/delete', 'BairrosController@delete')->name('bairros.delete');
+//Route::get('bairros', 'BairrosController@index')->middleware('route:bairros');
 Route::resource('bairros', 'BairrosController');
 
-Route::post('contatos/ligar', 'ContatosController@ligar');
+Route::post('contatos/ligar', 'ContatosController@ligar')->name('contatos.ligar');
+Route::get('contatos/{id}/delete', 'ContatosController@delete')->name('contatos.delete');
 Route::resource('contatos', 'ContatosController');
 
 Route::resource('home', 'HomeController', ['only' => [

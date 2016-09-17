@@ -1,7 +1,12 @@
 @extends('layouts.tema')
+
 @section('content')
 
 <div class="container-fluid">
-  <p>home.index</p>
+  <div class="jumbotron">
+    <h1>Bem vindo!</h1>
+    <p>Você está na página principal da agenda de contatos. Divirta-se e faça algo fantástico</p>
+  </div>
 </div>
-@stop
+
+@endsection

@@ -91,11 +91,11 @@ class ContatosController extends Controller
         }
 
         //$model->setPath('custom/url');
-        return view("cidades.index")
+        return view("contatos.index")
           ->with('model',$model)
           ->with('query',$query)
           ->with('pesquisa',$this->dao->getCamposPesquisa())
-          ->with('titulo','Listagem de Cidades');
+          ->with('titulo','Listagem de Contatos');
 
     }
 
@@ -262,7 +262,12 @@ class ContatosController extends Controller
     // Liga para o contato
     public function ligar(Request $request)
     {
-      dd('chamou contatos/ligar post');
+      //dd('chamou contatos/ligar post');
+
+      $nome_contato = $request->input('nome_contato');
+
+      return redirect('contatos')->with('mensagem','Ligação efetuada com sucesso para ['.
+      $nome_contato.'] (SóQueNão)');
     }
 
     // Não serve para nada. Veja store
