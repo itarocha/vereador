@@ -6,6 +6,14 @@ use Closure;
 
 class VerificaPermissoes
 {
+
+
+    private $visualizar = array("contatos.index", "bairros.index", "cidades.index");
+    private $editar = array("contatos.edit", "bairros.edit", "cidades.edit");
+    private $incluir = array("contatos.create", "bairros.create", "cidades.create");
+    private $excluir = array("contatos.delete", "bairros.delete", "cidades.delete");
+    private $ligar = array("contatos.ligar");
+
     /**
      * Handle an incoming request.
      *
@@ -44,5 +52,14 @@ class VerificaPermissoes
         }
 
         return $next($request);
+    }
+
+
+    private function possuiPermissao($role)
+    {
+      // if (in_array("Irix", $os)) {
+      //     echo "Tem Irix";
+      // }
+
     }
 }
