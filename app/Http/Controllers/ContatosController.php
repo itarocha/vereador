@@ -13,9 +13,6 @@ use Validator;
 use Session;
 //use Illuminate\Support\Facades\Auth;
 use Auth;
-use Carbon;
-
-
 
 class ContatosController extends Controller
 {
@@ -218,9 +215,13 @@ class ContatosController extends Controller
       //dd('chamou contatos/ligar post');
 
       $nome_contato = $request->input('nome_contato');
+      $id_contato = $request->input('id_contato');
+
+      $retorno = $this->dao->ligar($id_contato);
+      //dd($retorno);
 
       return redirect('contatos')->with('mensagem','Ligação efetuada com sucesso para ['.
-      $nome_contato.'] (SóQueNão)');
+      $nome_contato.'] ');
     }
 
     // Não serve para nada. Veja store

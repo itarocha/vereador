@@ -8,13 +8,15 @@ use Auth;
 class VerificaPermissoes
 {
 
-    private $livres = array("home.index", "login", "logout", "cidades.index","cidades.edit","cidades.create","cidades.delete",
-                            "bairros.index","bairros.edit","bairros.create","bairros.delete",
+    private $livres = array("home.index", "login", "logout", "cidades.index","cidades.edit","cidades.create",
+                            "cidades.store","cidades.delete",
+                            "bairros.index","bairros.edit","bairros.create",
+                            "bairros.store","bairros.delete",
                             "contatos.index","contatos.ligar"
                           );
     private $administrativas = array( "register", "contatos.delete", "usuarios.index",
                                       "usuarios.create", "usuarios.edit", "usuarios.delete");
-    private $opcionais = array("contatos.create", "contatos.edit");
+    private $opcionais = array("contatos.create", "contatos.edit", "contatos.store");
 
     /**
      * Handle an incoming request.
@@ -54,7 +56,7 @@ class VerificaPermissoes
                     $permissoes = array_merge($permissoes, array('contatos.create'));
                   }
                   if (Auth::user()->podeAlterar == 'S'){
-                    $permissoes = array_merge($permissoes, array('contatos.edit'));
+                    $permissoes = array_merge($permissoes, array('contatos.edit', 'contatos.store'));
                   }
             }
         }

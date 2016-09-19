@@ -4,6 +4,7 @@
 namespace App\Model;
 
 use DB;
+use Auth;
 use Laravel\Database\Exception;
 use App\Model\PetraOpcaoFiltro;
 
@@ -94,6 +95,8 @@ class BairrosDAO {
 
   public function insert($array){
     try {
+      $array['id_usuario_criou'] = Auth::user()->id;
+      $array['id_usuario_alterou'] = Auth::user()->id;
       $id = DB::table('bairros')->insertGetId($array);
       return (object)array( 'id' => $id,
                             'status' => 200,
@@ -112,6 +115,7 @@ class BairrosDAO {
       return (object)array( 'status'=>404,
                             'mensagem'=>'Não encontrado');
     }
+    $array['id_usuario_alterou'] = Auth::user()->id;
     try {
       $affected = DB::table('bairros')
                     ->where('id',$id)

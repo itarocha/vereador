@@ -4,6 +4,7 @@
 namespace App\Model;
 
 use DB;
+use Auth;
 use Laravel\Database\Exception;
 
 class CidadesDAO {
@@ -122,6 +123,8 @@ class CidadesDAO {
 
   public function insert($array){
     try {
+      $array['id_usuario_criou'] = Auth::user()->id;
+      $array['id_usuario_alterou'] = Auth::user()->id;
       $id = DB::table('cidades')->insertGetId($array);
       return (object)array( 'id' => $id,
                             'status' => 200,
@@ -141,6 +144,8 @@ class CidadesDAO {
                             'mensagem'=>'Não encontrado');
     }
     try {
+      $array['id_usuario_alterou'] = Auth::user()->id;
+
       $affected = DB::table('cidades')
                     ->where('id',$id)
                     ->update($array);

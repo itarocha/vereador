@@ -6,6 +6,8 @@ namespace App\Model;
 use DB;
 use Laravel\Database\Exception;
 use App\Model\PetraOpcaoFiltro;
+use Auth;
+use Carbon;
 
 class ContatosDAO {
 
@@ -277,6 +279,8 @@ class ContatosDAO {
 
   public function insert($array){
     try {
+      $array['id_usuario_criou'] = Auth::user()->id;
+      $array['id_usuario_alterou'] = Auth::user()->id;
       $id = DB::table('contatos')->insertGetId($array);
       return (object)array( 'id' => $id,
                             'status' => 200,
@@ -290,6 +294,7 @@ class ContatosDAO {
 
   public function update($id, $array){
     $model = $this->getById($id);
+    $array['id_usuario_alterou'] = Auth::user()->id;
 
     if (!$model){
       return (object)array( 'status'=>404,
@@ -315,6 +320,41 @@ class ContatosDAO {
     }
     return $retorno;
   }
+
+
+  public function ligar($id){
+    $model = $this->getById($id);
+    $array = array();
+    $array['id_usuario_alterou'] = Auth::user()->id;
+    $array['id_usuario_ligou'] = Auth::user()->id;
+    $array['data_hora_ligou'] = Carbon\Carbon::now();
+    $array['ligou'] = 'S';
+
+    if (!$model){
+      return (object)array( 'status'=>404,
+                            'mensagem'=>'Não encontrado');
+    }
+    try {
+      $affected = DB::table('contatos')
+                    ->where('id',$id)
+                    ->update($array);
+      $retorno = ($affected == 1) ? 200 : 204;
+      if ($affected == 1) {
+        return (object)array(   'status'=>200,
+                                'mensagem'=>'Alterado com sucesso');
+      } else {
+          return (object)array( 'status'=>204,
+                                'mensagem'=>'Registro não necessita ser modificado');
+      }
+    } catch (\Exception $e) {
+        //Campo inválido, erro de sintaxe
+        return (object)array('status'=>500,
+            'mensagem'=>'Falha ao alterar registro. Erro de sintaxe ou violação de chave'
+            .$e->getMessage());
+    }
+    return $retorno;
+  }
+
 
   public function delete($id)
   {
