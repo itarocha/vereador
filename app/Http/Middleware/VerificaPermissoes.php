@@ -3,16 +3,18 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use Auth;
 
 class VerificaPermissoes
 {
 
-
-    private $visualizar = array("contatos.index", "bairros.index", "cidades.index");
-    private $editar = array("contatos.edit", "bairros.edit", "cidades.edit");
-    private $incluir = array("contatos.create", "bairros.create", "cidades.create");
-    private $excluir = array("contatos.delete", "bairros.delete", "cidades.delete");
-    private $ligar = array("contatos.ligar");
+    private $livres = array("home.index", "login", "logout", "cidades.index","cidades.edit","cidades.create","cidades.delete",
+                            "bairros.index","bairros.edit","bairros.create","bairros.delete",
+                            "contatos.index","contatos.ligar"
+                          );
+    private $administrativas = array( "register", "contatos.delete", "usuarios.index",
+                                      "usuarios.create", "usuarios.edit", "usuarios.delete");
+    private $opcionais = array("contatos.create", "contatos.edit");
 
     /**
      * Handle an incoming request.
@@ -34,32 +36,44 @@ class VerificaPermissoes
         $rota = $request->route();
         $acao = $rota->getAction();
 
-        //dd($rota);
+        $permissoes = array();
 
+        $permissoes = array_merge($permissoes, $this->livres);
 
+        if (Auth::user()) {
+            if (Auth::user()->isAdmin == 'S') {
+                //$request->session()->flash('mensagem','Administrador' );
+                //array_push(, $administrativas);
+                $permissoes = array_merge($permissoes, $this->administrativas, $this->opcionais);
+            } else {
+              // $request->session()->flash('mensagem',
+                  // ' podeAlterar = '.Auth::user()->podeAlterar.
+                  // ' podeIncluir = '.Auth::user()->podeIncluir );
+
+                  if (Auth::user()->podeIncluir == 'S'){
+                    $permissoes = array_merge($permissoes, array('contatos.create'));
+                  }
+                  if (Auth::user()->podeAlterar == 'S'){
+                    $permissoes = array_merge($permissoes, array('contatos.edit'));
+                  }
+            }
+        }
         if(array_key_exists('as', $acao))
         {
-          $request->session()->flash('mensagem','Ação "'.$acao['as'].'"' );
-          // cidades.index
-          // xxx.create, xxx.delete
-          if ($acao['as'] == 'contatos.ligar'){
-              $request->session()->flash('msgerro','VOCÊ NÃO PODE LIGAR PARA NINGUÉM. ORA VEJAM SÓ!' );
-              return redirect('/home')->with('msgerro','VOCÊ NÃO PODE LIGAR PARA NINGUÉM. ORA VEJAM SÓ! QUE COISA!' );
-          }
+          // Se fosse para mostrar
+          //$request->session()->flash('mensagem','Ação "'.$acao['as'].'"' );
 
+          if ( !in_array($acao['as'], $permissoes )  ){
+            //return redirect('/home')->with('msgerro','ACESSO NÃO PERMITIDO PARA A AÇÃO '.$acao['as'] );
+            //$request->session()->flash('msgerro','Ação "'.$acao['as'].'"' );
+            return redirect('/home')->with('msgerro','Acesso não permitido para a ação '.$acao['as'] );
+
+          }
         } else {
-          $request->session()->flash('mensagem','Livre acesso' );
+          //$request->session()->flash('mensagem','Livre acesso' );
         }
 
         return $next($request);
     }
 
-
-    private function possuiPermissao($role)
-    {
-      // if (in_array("Irix", $os)) {
-      //     echo "Tem Irix";
-      // }
-
-    }
 }
