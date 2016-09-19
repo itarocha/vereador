@@ -13,6 +13,7 @@ class PetraInjetorFiltro
           $request->input('q_valor_principal') )
       {
         $filtro->campo = $request->input('q_campo');
+        $filtro->tipo = $request->input('q_tipo');
         $filtro->operador = $request->input('q_operador');
         $filtro->valor_principal = $request->input('q_valor_principal');
         $filtro->valor_complemento = $request->input('q_valor_complemento'); // por enquanto

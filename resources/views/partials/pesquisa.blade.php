@@ -15,6 +15,8 @@
       var index = this.selectedIndex;
       var tipo = p[index].type;
 
+      $("#q_tipo").val(tipo);
+
       if (tipo == 'date'){
         $("#q_valor_principal").mask("99/99/9999");
         $("#q_valor_complemento").mask("99/99/9999");
@@ -80,6 +82,7 @@
 
 <form method="GET" class="navbar-form navbar-left" role="search">
   <div class="form-group">
+    <input type="hidden" id="q_tipo" name="q_tipo">
     <select class="form-control" id="q_campo"  name="q_campo"></select>
     <select class="form-control" id="q_operador" name="q_operador"></select>
     <input type="text" class="form-control" placeholder="Conteúdo" id="q_valor_principal" name="q_valor_principal">

@@ -114,13 +114,13 @@ class ContatosDAO {
       {
         if ($q->op == "like")
         {
-          $query->where($q->campo,"like","%".$q->valor_principal."%");
+          $query->where($q->campo,"like","%".$q->getValorPrincipalFormatado()."%");
         } else
         if ($q->op == "between")
         {
-           $query->whereBetween($q->campo,[$q->valor_principal, $q->valor_complemento]);
+           $query->whereBetween($q->campo,[$q->getValorPrincipalFormatado(), $q->getValorComplementoFormatado()]);
         } else {
-          $query->where($q->campo,$q->op,$q->valor_principal);
+          $query->where($q->campo,$q->op,$q->getValorPrincipalFormatado());
         }
       }
 

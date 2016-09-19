@@ -28,61 +28,14 @@ class ContatosController extends Controller
       $this->dao = $dao;
     }
 
-    // private function montaQuery(Request $request)
-    // {
-    //   $retorno = array();
-    //
-    //   if ($request->input('q_campo') && $request->input('q_opcao') && $request->input('q_valor')) {
-    //
-    //     $opcao = $request->input('q_opcao');
-    //     switch ($opcao) {
-    //       case 'igual':
-    //         $opcao = "=";
-    //         break;
-    //       case 'diferente':
-    //         $opcao = "<>";
-    //         break;
-    //       case 'like':
-    //         $opcao = "like";
-    //         break;
-    //       default:
-    //         $opcao = null;
-    //         break;
-    //     }
-    //     if ($opcao){
-    //       $retorno[] = $request->input('q_campo');
-    //       $retorno[] = $request->input('q_opcao');
-    //       $retorno[] = $request->input('q_valor');
-    //     }
-    //   }
-    //   return $retorno;
-    // }
-
-    // public function buildCamposPesquisa(){
-    //   return $this->dao->getEstados();
-    // }
-
     // GET /cidades
     public function index(Request $request)
     {
-        // $q = $this->montaQuery($request);
-        // $model = $this->dao->listagem($q);
-        //
-        // // Método para setar os parâmetros
-        // foreach ($request->query as $key => $value){
-        //   $model->appends([$key => $value]);
-        // }
-        //
-        // //$model->setPath('custom/url');
-        // return view("contatos.index")
-        //   ->with('model',$model)
-        //   ->with('campos',$this->buildCamposPesquisa())
-        //   ->with('q',$q)
-        //   ->with('titulo','Listagem de Contatos');
-
         // Consulta
         $query = new PetraOpcaoFiltro();
         PetraInjetorFiltro::injeta($request, $query);
+
+        //dd($query->getValorPrincipalFormatado());
 
         $model = $this->dao->listagemComFiltro($query);
         // Carrega parâmetros do get (query params)
