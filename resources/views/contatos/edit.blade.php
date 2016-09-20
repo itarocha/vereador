@@ -17,8 +17,8 @@ $(function(){
 	 <input type="hidden" id="id" name="id" value="{{ $model->id }}">
 	 <input type="hidden" id="old_id_bairro" name="old_id_bairro" value="{{ $model->id_bairro }}">
 	 <input type="hidden" id="ligou" name="ligou" value="{{ $model->ligou }}">
-	 <input type="hidden" id="id_usuario_cadastro" name="id_usuario_cadastro" value="{{ $model->id_usuario_cadastro }}">
-	 <input type="hidden" id="data_hora_cadastro" name="data_hora_cadastro" value="{{ $model->data_hora_cadastro }}">
+	 <input type="hidden" id="id_usuario_ligou" name="id_usuario_ligou" value="{{ $model->id_usuario_ligou }}">
+	 <input type="hidden" id="data_hora_ligou" name="data_hora_ligou" value="{{ $model->data_hora_ligou }}">
 	 <div class="row">
      <div class="col-md-6">
        <label for="nome" class="input-label f-left">Nome:</label>

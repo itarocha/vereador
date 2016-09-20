@@ -40,11 +40,6 @@ class ContatosDAO {
                   'telefone3' => 'max:16',
                   'telefone4' => 'max:16',
                   'telefone5' => 'max:16',
-                  //'id_usuario_cadastro' => 'required',
-                  //'data_hora_cadastro' timestamp NULL DEFAULT NULL,
-                  //'ligou' varchar(1) NOT NULL,
-                  //'id_usuario_ligou' int(11) DEFAULT NULL,
-                  //'data_hora_ligou' timestamp NULL DEFAULT NULL,
                 );
   }
 
@@ -99,8 +94,6 @@ class ContatosDAO {
                         'tb.telefone3',
                         'tb.telefone4',
                         'tb.telefone5',
-                        'tb.id_usuario_cadastro',
-                        'tb.data_hora_cadastro',
                         'tb.ligou',
                         'tb.id_usuario_ligou',
                         'u.name as nome_usuario_ligou',
@@ -158,8 +151,6 @@ class ContatosDAO {
                         'tb.telefone3',
                         'tb.telefone4',
                         'tb.telefone5',
-                        'tb.id_usuario_cadastro',
-                        'tb.data_hora_cadastro',
                         'tb.ligou',
                         'tb.id_usuario_ligou',
                         'u.name as nome_usuario_ligou',

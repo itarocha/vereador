@@ -13,6 +13,7 @@ use Validator;
 use Session;
 //use Illuminate\Support\Facades\Auth;
 use Auth;
+use Carbon;
 
 class ContatosController extends Controller
 {
@@ -160,8 +161,6 @@ class ContatosController extends Controller
           'telefone3',
           'telefone4',
           'telefone5',
-          'id_usuario_cadastro',
-          'data_hora_cadastro',
           'ligou',
           'id_usuario_ligou',
           'data_hora_ligou'
@@ -177,9 +176,6 @@ class ContatosController extends Controller
 
           $retorno = $this->dao->update($id,$all);
         } else {
-          $all['id_usuario_cadastro'] = Auth::user()->id;
-          $all['data_hora_cadastro'] = Carbon\Carbon::now();
-
           $data_nascimento = Carbon\Carbon::createFromFormat('d/m/Y', $all['data_nascimento']);
           $all['data_nascimento'] = $data_nascimento;
           //Remover `id_usuario_ligou`, `data_hora_ligou`
