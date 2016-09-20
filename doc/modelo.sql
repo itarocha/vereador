@@ -26,12 +26,16 @@ CREATE TABLE `bairros` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `id_cidade` int(11) NOT NULL,
   `nome` varchar(64) NOT NULL,
+  `id_usuario_criou` int(11) DEFAULT NULL,
+  `id_usuario_alterou` int(11) DEFAULT NULL,
+  `data_hora_criacao` timestamp NULL DEFAULT NULL,
+  `data_hora_alteracao` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `bairros_un01` (`nome`,`id_cidade`),
   KEY `bairros_idx01` (`nome`),
   KEY `bairros_fk01_idx` (`id_cidade`),
   CONSTRAINT `bairros_fk01` FOREIGN KEY (`id_cidade`) REFERENCES `cidades` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -40,7 +44,7 @@ CREATE TABLE `bairros` (
 
 LOCK TABLES `bairros` WRITE;
 /*!40000 ALTER TABLE `bairros` DISABLE KEYS */;
-INSERT INTO `bairros` VALUES (2,1,'Barreiro'),(6,3,'Filadélfia'),(1,1,'Floresta'),(4,12,'Trezidela'),(3,2,'Tubalina');
+INSERT INTO `bairros` VALUES (1,1,'Floresta',NULL,NULL,NULL,NULL),(2,1,'Barreiro',NULL,NULL,NULL,NULL),(3,2,'Tubalina',NULL,NULL,NULL,NULL),(4,12,'Trezidela',NULL,NULL,NULL,NULL),(6,3,'Filadélfia',NULL,NULL,NULL,NULL),(7,12,'Inhamum',NULL,NULL,NULL,NULL),(8,1,'Pampulha',NULL,NULL,NULL,NULL),(9,1,'Santa Efigênia',NULL,NULL,NULL,NULL),(10,2,'Tocantins',NULL,NULL,NULL,NULL),(11,2,'Mansour',NULL,NULL,NULL,NULL),(12,2,'Santa Mônica',NULL,NULL,NULL,NULL);
 /*!40000 ALTER TABLE `bairros` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -55,6 +59,10 @@ CREATE TABLE `cidades` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nome` varchar(64) NOT NULL,
   `uf` varchar(2) NOT NULL,
+  `id_usuario_criou` int(11) DEFAULT NULL,
+  `id_usuario_alterou` int(11) DEFAULT NULL,
+  `data_hora_criacao` timestamp NULL DEFAULT NULL,
+  `data_hora_alteracao` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `cidades_un01` (`nome`),
   KEY `cidades_idx01` (`uf`)
@@ -67,7 +75,7 @@ CREATE TABLE `cidades` (
 
 LOCK TABLES `cidades` WRITE;
 /*!40000 ALTER TABLE `cidades` DISABLE KEYS */;
-INSERT INTO `cidades` VALUES (1,'Belo Horizonte','MG'),(2,'Uberlândia','MG'),(3,'Betim','MG'),(4,'Contagem','MG'),(11,'Ourinhos','GO'),(12,'Caxias','MA'),(13,'Prata','MG'),(15,'Blumenau','SC'),(16,'Uberaba','MG'),(17,'Belo Monte','MG'),(18,'Montes Claros','MG'),(19,'Patrocínio','MG'),(20,'Caldas Novas','GO'),(21,'Lima Duarte','MG'),(22,'Itabirito','MG'),(23,'Nova Iguaçu','RJ');
+INSERT INTO `cidades` VALUES (1,'Belo Horizonte','MG',NULL,NULL,NULL,NULL),(2,'Uberlândia','MG',NULL,NULL,NULL,NULL),(3,'Betim','MG',NULL,NULL,NULL,NULL),(4,'Contagem','MG',NULL,NULL,NULL,NULL),(11,'Ourinhos','GO',NULL,NULL,NULL,NULL),(12,'Caxias','MA',NULL,NULL,NULL,NULL),(13,'Prata','MG',NULL,NULL,NULL,NULL),(15,'Blumenau','SC',NULL,NULL,NULL,NULL),(16,'Uberaba','MG',NULL,NULL,NULL,NULL),(17,'Belo Monte','MG',NULL,NULL,NULL,NULL),(18,'Montes Claros','MG',NULL,NULL,NULL,NULL),(19,'Patrocínio','MG',NULL,NULL,NULL,NULL),(20,'Caldas Novas','GO',NULL,NULL,NULL,NULL),(21,'Lima Duarte','MG',NULL,NULL,NULL,NULL),(22,'Itabirito','MG',NULL,NULL,NULL,NULL),(23,'Nova Iguaçu','RJ',NULL,NULL,NULL,NULL);
 /*!40000 ALTER TABLE `cidades` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -101,13 +109,17 @@ CREATE TABLE `contatos` (
   `ligou` varchar(1) NOT NULL,
   `id_usuario_ligou` int(11) DEFAULT NULL,
   `data_hora_ligou` timestamp NULL DEFAULT NULL,
+  `id_usuario_criou` int(11) DEFAULT NULL,
+  `id_usuario_alterou` int(11) DEFAULT NULL,
+  `data_hora_criacao` timestamp NULL DEFAULT NULL,
+  `data_hora_alteracao` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `pessoas_un01` (`cpf`),
   KEY `pessoas_idx01` (`nome`),
   KEY `pessoas_idx02` (`data_nascimento`),
   KEY `pessoas_idx03` (`id_bairro`),
   KEY `pessoas_idx04` (`data_hora_ligou`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -116,7 +128,7 @@ CREATE TABLE `contatos` (
 
 LOCK TABLES `contatos` WRITE;
 /*!40000 ALTER TABLE `contatos` DISABLE KEYS */;
-INSERT INTO `contatos` VALUES (1,'Itamar Rocha Chaves Junior','1972-06-29','28289579349','15456','354','120','Av. Imbaúba','1400','Bl. 05 ap 204',1,'38413064','34984214666','34984214662','34984214665','34984214660','34984214668',1,'2016-09-11 21:35:30','N',NULL,NULL),(2,'Fernanda Beraldo Barbosa','1978-11-02','04439703607','--','','','Av. Brasil','4513','Apto 304',2,'38400355','3432225813','','','','',1,'2016-09-11 22:29:15','S',2,'2016-09-11 22:45:15');
+INSERT INTO `contatos` VALUES (1,'Itamar Rocha Chaves Junior','1972-06-29','28289579349','15456','354','120','Av. Imbaúba','1400','Bl. 05 ap 204',1,'38413064','34984214666','34984214662','34984214665','34984214660','34984214668',1,'2016-09-11 21:35:30','N',NULL,NULL,NULL,NULL,NULL,NULL),(2,'Fernanda Beraldo Barbosa','1978-11-02','04439703607','--','','','Av. Brasil','4513','Apto 304',2,'38400355','3432225813','','','','',1,'2016-09-11 22:29:15','S',2,'2016-09-11 22:45:15',NULL,NULL,NULL,NULL),(3,'Raimundo Nonato','2000-04-30','55544433325','','','','Av. dos Andradas','243','Fundos',8,'32400325','','','','','',1,'2016-09-13 03:44:30','N',NULL,NULL,NULL,NULL,NULL,NULL),(4,'Pedro Paulo Bial','1930-05-18','44566688877','','','','Avenida Central','400','',7,'65400324','','','','','',1,'2016-09-13 03:46:46','N',NULL,NULL,NULL,NULL,NULL,NULL),(5,'Maria Helena Lima Chaves','1930-06-26','44455544433','','','','Rua Três','520','Fundos',12,'44666222','','','','','',1,'2016-09-13 05:05:14','N',NULL,NULL,NULL,NULL,NULL,NULL),(6,'Hortência Nazária Felipe Arruda','1984-06-30','55320403762','','','','Av. dos Ipês Floridos','300','',1,'32420077','','','','','',1,'2016-09-13 19:48:51','N',NULL,NULL,NULL,NULL,NULL,NULL);
 /*!40000 ALTER TABLE `contatos` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -184,9 +196,12 @@ CREATE TABLE `users` (
   `remember_token` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
+  `isAdmin` varchar(1) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `podeAlterar` varchar(1) CHARACTER SET utf8 DEFAULT NULL,
+  `podeIncluir` varchar(1) COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `users_email_unique` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -195,7 +210,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'Itamar Rocha','itarocha@gmail.com','$2y$10$2yDJaTPbNknLQ.DgEXl42u6gVfbD1JwRQY5Jd1Sb1JnxkSl3tQCd2','TGGp8Gv1VQFuY9Im2dpFAfmeu8vZkoEsDZlteLCic3iazTf8vGmZORukVC9v','2016-09-10 15:41:42','2016-09-10 23:28:16'),(2,'Administrador','admin@gmail.com','$2y$10$6GW.zS1UeRwhZY.79XHhyOo7vVRY9zeULmXpRBua4PCjPivvA0Rrm',NULL,'2016-09-11 00:12:19','2016-09-11 00:12:19');
+INSERT INTO `users` VALUES (1,'Itamar Rocha','itarocha@gmail.com','$2y$10$2yDJaTPbNknLQ.DgEXl42u6gVfbD1JwRQY5Jd1Sb1JnxkSl3tQCd2','dfItQ2xniO55C1svpDKOsDLJQYjhsVUbQtQlTD59Jn2C2UuL9Q9117jCw1xw','2016-09-10 15:41:42','2016-09-20 04:48:54','N','S','N'),(2,'Administrador','admin@gmail.com','$2y$10$6GW.zS1UeRwhZY.79XHhyOo7vVRY9zeULmXpRBua4PCjPivvA0Rrm',NULL,'2016-09-11 00:12:19','2016-09-11 00:12:19','S','N','N'),(3,'Fernanda Beraldo','beraldofernanda@yahoo.com.br','$2y$10$RsA.tBQjkrFQxSqJdo7youeZw9yIVm8Nd36SkoHRVaMDjyjhzKVYm',NULL,NULL,NULL,'N','N','N');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -208,4 +223,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-09-11 23:23:23
+-- Dump completed on 2016-09-19 22:54:57

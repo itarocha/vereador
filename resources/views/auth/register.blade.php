@@ -66,11 +66,55 @@
                             </div>
                         </div>
 
+                        <div class="form-group{{ $errors->has('isAdmin') ? ' has-error' : '' }}">
+                             <label for="isAdmin" class="col-md-4 control-label">Administrador?</label>
+
+                             <div class="col-md-6">
+                                 <input id="isAdmin" type="text" class="form-control" name="isAdmin" required>
+
+                                 @if ($errors->has('isAdmin'))
+                                     <span class="help-block">
+                                         <strong>{{ $errors->first('isAdmin') }}</strong>
+                                     </span>
+                                 @endif
+                             </div>
+                         </div>
+
+                         <div class="form-group{{ $errors->has('podeIncluir') ? ' has-error' : '' }}">
+                              <label for="isAdmin" class="col-md-4 control-label">Pode incluir Contato?</label>
+
+                              <div class="col-md-6">
+                                  <input id="podeIncluir" type="text" class="form-control" name="podeIncluir" required>
+
+                                  @if ($errors->has('podeIncluir'))
+                                      <span class="help-block">
+                                          <strong>{{ $errors->first('podeIncluir') }}</strong>
+                                      </span>
+                                  @endif
+                              </div>
+                          </div>
+
+                          <div class="form-group{{ $errors->has('podeAlterar') ? ' has-error' : '' }}">
+                               <label for="podeAlterar" class="col-md-4 control-label">Pode alterar Contato?</label>
+
+                               <div class="col-md-6">
+                                   <input id="podeAlterar" type="text" class="form-control" name="podeAlterar" required>
+
+                                   @if ($errors->has('podeAlterar'))
+                                       <span class="help-block">
+                                           <strong>{{ $errors->first('podeAlterar') }}</strong>
+                                       </span>
+                                   @endif
+                               </div>
+                           </div>
+
+
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
                                 <button type="submit" class="btn btn-primary">
-                                    Gravar Novo Usuário
+                                    Gravar
                                 </button>
+                                <a href="/usuarios" class="btn btn-default">Voltar</a>
                             </div>
                         </div>
                     </form>

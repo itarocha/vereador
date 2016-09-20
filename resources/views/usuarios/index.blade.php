@@ -1,32 +1,31 @@
 @extends('layouts.tema')
 @section('content')
 
-<!-- cidades.index -->
+<!-- usuarios.index -->
 
-<a href="/cidades/create" class="btn btn-primary">Nova Cidade</a>
+<a href="/usuarios/create" class="btn btn-primary">Novo Usuário</a>
 
 <div class="container-fluid">
-<!-- <div class="row">
-  </div> -->
-@include('partials.pesquisa')
 
 @if (count($model) > 0)
 		<table class="table table-bordered table-striped">
 			<thead>
 				<tr>
           <th>Nome</th>
-          <th>UF</th>
+					<th>Email</th>
+					<th>Administrador?</th>
 					<th>Ações</th>
 				</tr>
 			</thead>
 			<tbody>
 			@foreach($model as $item)
 				<tr>
-          <td>{{ $item->nome }}</td>
-          <td>{{ $item->uf }}</td>
+          <td>{{ $item->name }}</td>
+					<td>{{ $item->email }}</td>
+					<td>{{ $item->isAdmin }}</td>
 					<td>
-						<a href="/cidades/{{ $item->id }}/edit" class="btn btn-xs btn-info">Editar</a>
-						<a href="/cidades/{{ $item->id }}/delete" class="btn btn-xs btn-danger">Excluir</a>
+						<a href="/usuarios/{{ $item->id }}/edit" class="btn btn-xs btn-info">Editar</a>
+						<a href="/usuarios/{{ $item->id }}/delete" class="btn btn-xs btn-danger">Excluir</a>
 					</td>
 				</tr>
 			@endforeach

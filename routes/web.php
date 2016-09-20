@@ -27,6 +27,10 @@ Route::get('/', function () {
 // Route::post('/cidades/edit', 'CidadesController@postEdit');
 // Route::post('/cidades/delete', 'CidadesController@postDelete');
 
+Route::get('usuarios/{id}/delete', 'UsuariosController@delete')->name('usuarios.delete');
+Route::resource('usuarios', 'UsuariosController');
+
+
 Route::get('cidades/{id}/delete', 'CidadesController@delete')->name('cidades.delete');
 Route::resource('cidades', 'CidadesController');
 

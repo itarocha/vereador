@@ -110,20 +110,14 @@
                   <li><a href="{{ url('/login') }}">Login</a></li>
                   <!-- <li><a href="{{ url('/register') }}">Register</a></li> -->
               @else
-                  <!-- <li><a href="{{ url('/contatos') }}">Contatos</a></li>
-                  <li><a href="{{ url('/cidades') }}">Cidades</a></li>
-                  <li><a href="{{ url('/bairros') }}">Bairros</a></li>
-                  <li><a href="{{ url('/register') }}">Novo Usuário</a></li> -->
                   <li class="dropdown">
                       <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
                         <span class="glyphicon glyphicon-user padding-right-small" style="position:relative;top: 3px;"></span>
                           {{ Auth::user()->name }} <span class="caret"></span>
                       </a>
-
                       <ul class="dropdown-menu" role="menu">
                           <li>
-                              <a href="{{ url('/logout') }}"
-                                  onclick="event.preventDefault();
+                              <a href="{{ url('/logout') }}" onclick="event.preventDefault();
                                            document.getElementById('logout-form').submit();">
                                   Logout
                               </a>
@@ -134,6 +128,20 @@
                           </li>
                       </ul>
                   </li>
+
+                  <li class="dropdown">
+                      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                          Menu <span class="caret"></span>
+                      </a>
+                      <ul class="dropdown-menu" role="menu">
+                        <li><a href="/contatos">Contatos</a></li>
+                        <li ><a href="/cidades">Cidades</a></li>
+                        <li ><a href="/bairros">Bairros</a></li>
+                        <li ><a href="/usuarios">Usuários</a></li>
+                      </ul>
+                  </li>
+
+
               @endif
           </ul>
         </div>
@@ -163,12 +171,15 @@
 
 
         <li><ul class="accounts-menu nav nav-list collapse">
-            <li><a href="{{ url('/register') }}"><span class="fa fa-caret-right"></span> Novo Usuário</a></li>
+
+            <li ><a href="/usuarios"><span class="fa fa-caret-right"></span> Usuários</a></li>
+
+            <!-- <li><a href="{{ url('/register') }}"><span class="fa fa-caret-right"></span> Novo Usuário</a></li> -->
             <li><a href="{{ url('/login') }}"><span class="fa fa-caret-right"></span> Login</a></li>
 
             <li><a href="{{ url('/logout') }}" onclick="event.preventDefault();document.getElementById('logout-form').submit();"><span class="fa fa-caret-right"></span> Logout</a></li>
 
-            <li><a href="{{ url('/password/reset') }}"><span class="fa fa-caret-right"></span> Resetar Senha</a></li>
+            <!-- <li><a href="{{ url('/password/reset') }}"><span class="fa fa-caret-right"></span> Resetar Senha</a></li> -->
             </ul>
         </li>
 
