@@ -26,7 +26,6 @@ $(function(){
      </div>
    </div>
 
-
 	 @if ( $model->id == 0 )
 	 <div class="row">
      <div class="col-md-6">
@@ -41,21 +40,29 @@ $(function(){
    </div>
 	 @endif
 
-
 	 <div class="row">
 		 <div class="col-md-4">
        <label for="isAdmin" class="input-label f-left">Administrador?</label>
-       <input type="isAdmin" class="input-text f-left" id="isAdmin" name="isAdmin" value="{{ $model->isAdmin }}">
+			 <select class="input-text f-left" name="isAdmin" id="isAdmin">
+				 <option value="{{ $model->isAdmin }}" {{ $model->isAdmin == 'S' ? 'selected="selected"' : '' }}>Sim</option>
+				 <option value="{{ $model->isAdmin }}" {{ $model->isAdmin == 'N' ? 'selected="selected"' : '' }}>Não</option>
+       </select>
      </div>
 
 		 <div class="col-md-4">
         <label for="podeIncluir" class="input-label f-left">Pode Incluir Candidato?</label>
-        <input type="text" class="input-text f-left" id="podeIncluir" name="podeIncluir"  value="{{ $model->podeIncluir }}">
+				<select class="input-text f-left" name="podeIncluir" id="podeIncluir">
+ 				 	<option value="{{ $model->podeIncluir }}" {{ $model->podeIncluir == 'S' ? 'selected="selected"' : '' }}>Sim</option>
+ 				 	<option value="{{ $model->podeIncluir }}" {{ $model->podeIncluir == 'N' ? 'selected="selected"' : '' }}>Não</option>
+        </select>
       </div>
 
 			<div class="col-md-4">
 	       <label for="podeAlterar" class="input-label f-left">Pode Alterar Candidato?</label>
-	       <input type="text" class="input-text f-left" id="podeAlterar" name="podeAlterar"  value="{{ $model->podeAlterar }}">
+				 <select class="input-text f-left" name="podeAlterar" id="podeAlterar">
+  				 	<option value="{{ $model->podeAlterar }}" {{ $model->podeAlterar == 'S' ? 'selected="selected"' : '' }}>Sim</option>
+  				 	<option value="{{ $model->podeAlterar }}" {{ $model->podeAlterar == 'N' ? 'selected="selected"' : '' }}>Não</option>
+         </select>
 	     </div>
    </div>
 

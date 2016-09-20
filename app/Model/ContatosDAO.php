@@ -276,7 +276,10 @@ class ContatosDAO {
   public function insert($array){
     try {
       $array['id_usuario_criacao'] = Auth::user()->id;
+      $array['data_hora_criacao'] = Carbon\Carbon::now();
       $array['id_usuario_alteracao'] = Auth::user()->id;
+      $array['data_hora_alteracao'] = Carbon\Carbon::now();
+
       $id = DB::table('contatos')->insertGetId($array);
       return (object)array( 'id' => $id,
                             'status' => 200,
@@ -290,7 +293,8 @@ class ContatosDAO {
 
   public function update($id, $array){
     $model = $this->getById($id);
-    $array['id_usuario_alterou'] = Auth::user()->id;
+    $array['id_usuario_alteracao'] = Auth::user()->id;
+    $array['data_hora_alteracao'] = Carbon\Carbon::now();
 
     if (!$model){
       return (object)array( 'status'=>404,
@@ -322,6 +326,8 @@ class ContatosDAO {
     $model = $this->getById($id);
     $array = array();
     $array['id_usuario_alteracao'] = Auth::user()->id;
+    $array['data_hora_alteracao'] = Carbon\Carbon::now();
+
     $array['id_usuario_ligou'] = Auth::user()->id;
     $array['data_hora_ligou'] = Carbon\Carbon::now();
     $array['ligou'] = 'S';

@@ -25,8 +25,8 @@
           <td>{{ $item->nome }}</td>
           <td>{{ $item->uf }}</td>
 					<td>
-						<a href="/cidades/{{ $item->id }}/edit" class="btn btn-xs btn-info">Editar</a>
-						<a href="/cidades/{{ $item->id }}/delete" class="btn btn-xs btn-danger">Excluir</a>
+						<a href="/cidades/{{ $item->id }}/edit" class="btn btn-sm btn-default"><span class="text-info fa fa-edit fa-fw"></span> Editar</a>
+						<a href="/cidades/{{ $item->id }}/delete" class="btn btn-sm btn-default"><span class="text-danger fa fa-trash-o fa-fw"></span> Excluir</a>
 					</td>
 				</tr>
 			@endforeach

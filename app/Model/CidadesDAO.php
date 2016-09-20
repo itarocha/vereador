@@ -123,8 +123,11 @@ class CidadesDAO {
 
   public function insert($array){
     try {
-      $array['id_usuario_criou'] = Auth::user()->id;
-      $array['id_usuario_alterou'] = Auth::user()->id;
+      $array['id_usuario_criacao'] = Auth::user()->id;
+      $array['data_hora_criacao'] = Carbon\Carbon::now();
+      $array['id_usuario_alteracao'] = Auth::user()->id;
+      $array['data_hora_alteracao'] = Carbon\Carbon::now();
+
       $id = DB::table('cidades')->insertGetId($array);
       return (object)array( 'id' => $id,
                             'status' => 200,
@@ -144,7 +147,8 @@ class CidadesDAO {
                             'mensagem'=>'Não encontrado');
     }
     try {
-      $array['id_usuario_alterou'] = Auth::user()->id;
+      $array['id_usuario_alteracao'] = Auth::user()->id;
+      $array['data_hora_alteracao'] = Carbon\Carbon::now();
 
       $affected = DB::table('cidades')
                     ->where('id',$id)

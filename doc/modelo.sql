@@ -26,8 +26,8 @@ CREATE TABLE `bairros` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `id_cidade` int(11) NOT NULL,
   `nome` varchar(64) NOT NULL,
-  `id_usuario_criou` int(11) DEFAULT NULL,
-  `id_usuario_alterou` int(11) DEFAULT NULL,
+  `id_usuario_criacao` int(11) DEFAULT NULL,
+  `id_usuario_alteracao` int(11) DEFAULT NULL,
   `data_hora_criacao` timestamp NULL DEFAULT NULL,
   `data_hora_alteracao` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
@@ -59,8 +59,8 @@ CREATE TABLE `cidades` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nome` varchar(64) NOT NULL,
   `uf` varchar(2) NOT NULL,
-  `id_usuario_criou` int(11) DEFAULT NULL,
-  `id_usuario_alterou` int(11) DEFAULT NULL,
+  `id_usuario_criacao` int(11) DEFAULT NULL,
+  `id_usuario_alteracao` int(11) DEFAULT NULL,
   `data_hora_criacao` timestamp NULL DEFAULT NULL,
   `data_hora_alteracao` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
@@ -104,13 +104,11 @@ CREATE TABLE `contatos` (
   `telefone3` varchar(16) DEFAULT NULL,
   `telefone4` varchar(16) DEFAULT NULL,
   `telefone5` varchar(16) DEFAULT NULL,
-  `id_usuario_cadastro` int(11) DEFAULT NULL,
-  `data_hora_cadastro` timestamp NULL DEFAULT NULL,
   `ligou` varchar(1) NOT NULL,
   `id_usuario_ligou` int(11) DEFAULT NULL,
   `data_hora_ligou` timestamp NULL DEFAULT NULL,
-  `id_usuario_criou` int(11) DEFAULT NULL,
-  `id_usuario_alterou` int(11) DEFAULT NULL,
+  `id_usuario_criacao` int(11) DEFAULT NULL,
+  `id_usuario_alteracao` int(11) DEFAULT NULL,
   `data_hora_criacao` timestamp NULL DEFAULT NULL,
   `data_hora_alteracao` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
@@ -128,7 +126,7 @@ CREATE TABLE `contatos` (
 
 LOCK TABLES `contatos` WRITE;
 /*!40000 ALTER TABLE `contatos` DISABLE KEYS */;
-INSERT INTO `contatos` VALUES (1,'Itamar Rocha Chaves Junior','1972-06-29','28289579349','15456','354','120','Av. Imbaúba','1400','Bl. 05 ap 204',1,'38413064','34984214666','34984214662','34984214665','34984214660','34984214668',1,'2016-09-11 21:35:30','N',NULL,NULL,NULL,NULL,NULL,NULL),(2,'Fernanda Beraldo Barbosa','1978-11-02','04439703607','--','','','Av. Brasil','4513','Apto 304',2,'38400355','3432225813','','','','',1,'2016-09-11 22:29:15','S',2,'2016-09-11 22:45:15',NULL,NULL,NULL,NULL),(3,'Raimundo Nonato','2000-04-30','55544433325','','','','Av. dos Andradas','243','Fundos',8,'32400325','','','','','',1,'2016-09-13 03:44:30','N',NULL,NULL,NULL,NULL,NULL,NULL),(4,'Pedro Paulo Bial','1930-05-18','44566688877','','','','Avenida Central','400','',7,'65400324','','','','','',1,'2016-09-13 03:46:46','N',NULL,NULL,NULL,NULL,NULL,NULL),(5,'Maria Helena Lima Chaves','1930-06-26','44455544433','','','','Rua Três','520','Fundos',12,'44666222','','','','','',1,'2016-09-13 05:05:14','N',NULL,NULL,NULL,NULL,NULL,NULL),(6,'Hortência Nazária Felipe Arruda','1984-06-30','55320403762','','','','Av. dos Ipês Floridos','300','',1,'32420077','','','','','',1,'2016-09-13 19:48:51','N',NULL,NULL,NULL,NULL,NULL,NULL);
+INSERT INTO `contatos` VALUES (1,'Itamar Rocha Chaves Junior','1972-06-29','28289579349','15456','354','120','Av. Imbaúba','1400','Bl. 05 ap 204',1,'38413064','34984214666','34984214662','34984214665','34984214660','34984214668','N',NULL,NULL,NULL,NULL,NULL,NULL),(2,'Fernanda Beraldo Barbosa','1978-11-02','04439703607','--','','','Av. Brasil','4513','Apto 304',2,'38400355','3432225813','','','','','S',2,'2016-09-11 22:45:15',NULL,NULL,NULL,NULL),(3,'Raimundo Nonato','2000-04-30','55544433325','','','','Av. dos Andradas','243','Fundos',8,'32400325','','','','','','N',NULL,NULL,NULL,NULL,NULL,NULL),(4,'Pedro Paulo Bial','1930-05-18','44566688877','','','','Avenida Central','400','',7,'65400324','','','','','','N',NULL,NULL,NULL,NULL,NULL,NULL),(5,'Maria Helena Lima Chaves','1930-06-26','44455544433','','','','Rua Três','520','Fundos',12,'44666222','','','','','','N',NULL,NULL,NULL,NULL,NULL,NULL),(6,'Hortência Nazária Felipe Arruda','1984-06-30','55320403762','','','','Av. dos Ipês Floridos','300','',1,'32420077','','','','','','N',NULL,NULL,NULL,NULL,NULL,NULL);
 /*!40000 ALTER TABLE `contatos` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -210,7 +208,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'Itamar Rocha','itarocha@gmail.com','$2y$10$2yDJaTPbNknLQ.DgEXl42u6gVfbD1JwRQY5Jd1Sb1JnxkSl3tQCd2','dfItQ2xniO55C1svpDKOsDLJQYjhsVUbQtQlTD59Jn2C2UuL9Q9117jCw1xw','2016-09-10 15:41:42','2016-09-20 04:48:54','N','S','N'),(2,'Administrador','admin@gmail.com','$2y$10$6GW.zS1UeRwhZY.79XHhyOo7vVRY9zeULmXpRBua4PCjPivvA0Rrm',NULL,'2016-09-11 00:12:19','2016-09-11 00:12:19','S','N','N'),(3,'Fernanda Beraldo','beraldofernanda@yahoo.com.br','$2y$10$RsA.tBQjkrFQxSqJdo7youeZw9yIVm8Nd36SkoHRVaMDjyjhzKVYm',NULL,NULL,NULL,'N','N','N');
+INSERT INTO `users` VALUES (1,'Itamar Rocha','itarocha@gmail.com','$2y$10$2yDJaTPbNknLQ.DgEXl42u6gVfbD1JwRQY5Jd1Sb1JnxkSl3tQCd2','8LixlEfpv2S9qRE72CsXk0FWAq6vqoWc1qb5nBplodOMAx76DuOj0k511rpv','2016-09-10 15:41:42','2016-09-20 19:08:28','N','S','N'),(2,'Administrador','admin@gmail.com','$2y$10$6GW.zS1UeRwhZY.79XHhyOo7vVRY9zeULmXpRBua4PCjPivvA0Rrm',NULL,'2016-09-11 00:12:19','2016-09-11 00:12:19','S','N','N'),(3,'Fernanda Beraldo','beraldofernanda@yahoo.com.br','$2y$10$RsA.tBQjkrFQxSqJdo7youeZw9yIVm8Nd36SkoHRVaMDjyjhzKVYm',NULL,NULL,NULL,'N','N','N');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -223,4 +221,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-09-19 22:54:57
+-- Dump completed on 2016-09-20 13:31:16

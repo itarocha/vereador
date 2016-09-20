@@ -95,8 +95,11 @@ class BairrosDAO {
 
   public function insert($array){
     try {
-      $array['id_usuario_criou'] = Auth::user()->id;
-      $array['id_usuario_alterou'] = Auth::user()->id;
+      $array['id_usuario_criacao'] = Auth::user()->id;
+      $array['data_hora_criacao'] = Carbon\Carbon::now();
+      $array['id_usuario_alteracao'] = Auth::user()->id;
+      $array['data_hora_alteracao'] = Carbon\Carbon::now();
+
       $id = DB::table('bairros')->insertGetId($array);
       return (object)array( 'id' => $id,
                             'status' => 200,
@@ -115,8 +118,9 @@ class BairrosDAO {
       return (object)array( 'status'=>404,
                             'mensagem'=>'Não encontrado');
     }
-    $array['id_usuario_alterou'] = Auth::user()->id;
     try {
+      $array['id_usuario_alteracao'] = Auth::user()->id;
+      $array['data_hora_alteracao'] = Carbon\Carbon::now();
       $affected = DB::table('bairros')
                     ->where('id',$id)
                     ->update($array);

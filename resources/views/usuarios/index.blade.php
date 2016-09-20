@@ -24,8 +24,8 @@
 					<td>{{ $item->email }}</td>
 					<td>{{ $item->isAdmin }}</td>
 					<td>
-						<a href="/usuarios/{{ $item->id }}/edit" class="btn btn-xs btn-info">Editar</a>
-						<a href="/usuarios/{{ $item->id }}/delete" class="btn btn-xs btn-danger">Excluir</a>
+						<a href="/usuarios/{{ $item->id }}/edit" class="btn btn-sm btn-default"><span class="text-info fa fa-edit fa-fw"></span> Editar</a>
+						<a href="/usuarios/{{ $item->id }}/delete" class="btn btn-sm btn-default"><span class="text-danger fa fa-trash-o fa-fw"></span> Excluir</a>
 					</td>
 				</tr>
 			@endforeach
