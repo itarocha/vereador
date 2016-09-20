@@ -226,8 +226,6 @@ class ContatosDAO {
                 'telefone3'=>'',
                 'telefone4'=>'',
                 'telefone5'=>'',
-                'id_usuario_cadastro'=>'',
-                'data_hora_cadastro'=>'',
                 'ligou'=>'N',
                 'id_usuario_ligou'=>'',
                 'data_hora_ligou'=>'');
@@ -259,8 +257,6 @@ class ContatosDAO {
                         'tb.telefone3',
                         'tb.telefone4',
                         'tb.telefone5',
-                        'tb.id_usuario_cadastro',
-                        'tb.data_hora_cadastro',
                         'tb.ligou',
                         'tb.id_usuario_ligou',
                         'tb.data_hora_ligou'
@@ -279,8 +275,8 @@ class ContatosDAO {
 
   public function insert($array){
     try {
-      $array['id_usuario_criou'] = Auth::user()->id;
-      $array['id_usuario_alterou'] = Auth::user()->id;
+      $array['id_usuario_criacao'] = Auth::user()->id;
+      $array['id_usuario_alteracao'] = Auth::user()->id;
       $id = DB::table('contatos')->insertGetId($array);
       return (object)array( 'id' => $id,
                             'status' => 200,
@@ -325,7 +321,7 @@ class ContatosDAO {
   public function ligar($id){
     $model = $this->getById($id);
     $array = array();
-    $array['id_usuario_alterou'] = Auth::user()->id;
+    $array['id_usuario_alteracao'] = Auth::user()->id;
     $array['id_usuario_ligou'] = Auth::user()->id;
     $array['data_hora_ligou'] = Carbon\Carbon::now();
     $array['ligou'] = 'S';
