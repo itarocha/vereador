@@ -240,6 +240,19 @@ class ContatosController extends Controller
          $model->appends([$key => $value]);
       }
 
+
+      $pdf = PDF::loadView('contatos.imprimir', ['model' => $model,
+                                          'query'=>$query,
+                                          'pesquisa'=>$this->dao->getCamposPesquisa(),
+                                          'titulo'=>'Listagem de Contatos'
+                                        ]);
+      //return $pdf->stream();
+      return $pdf->download('arquivo.pdf');
+
+
+
+
+
       //$model->setPath('custom/url');
       $view = view("contatos.imprimir")
         ->with('model',$model)
