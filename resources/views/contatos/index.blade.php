@@ -17,7 +17,7 @@ $(function(){
 <div id="container-main" class="container-fluid">
 <!-- <div class="row">
   </div> -->
-@include('partials.pesquisa')
+@include('partials.pesquisa',['imprimir'=>'S'])
 
 @if (count($model) > 0)
 		<table class="table table-bordered table-striped">

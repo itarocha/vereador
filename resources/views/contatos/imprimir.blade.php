@@ -1,7 +1,6 @@
-@extends('layouts.default')
+@extends('layouts.impressao')
 @section('content')
 
-<div id="container-main" class="container-fluid">
 <!-- <div class="row">
   </div> -->
 @if (count($model) > 0)
@@ -17,7 +16,7 @@
 			@foreach($model as $item)
 				<tr>
           <td>
-            <h4 class="text-warning">{{ $item->nome }}</h4>
+            <p class="info small">{{ $item->nome }}</p>
             <p class="info small">{{ $item->data_nascimento }}</p>
           </td>
           <td><p class="info small">{{ $item->nome_bairro }}</p>
@@ -25,7 +24,7 @@
           </td>
           <td>
             @if($item->ligou == 'S')
-            	<p class="info small">Ligou {{ $item->data_hora_ligou }} - {{ $item->nome_usuario_ligou }}</p>
+            	<p class="info small">{{ $item->nome_usuario_ligou }} ligou em {{ $item->data_hora_ligou }} </p>
             @else
             	<p class="info small">Não Ligou</p>
             @endif
@@ -41,6 +40,5 @@
     </div>
 </div>
 @endif
-</div>
 
 @stop

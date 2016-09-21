@@ -77,11 +77,17 @@
     $('#q_valor_principal').val(query.valor_principal);
     $('#q_valor_complemento').val(query.valor_complemento);
 
+    $('#btImprimir').on('click', function(e){
+       $("#q_print").val("S");
+       $( "#frmPesquisar" ).submit();
+    });
+
   });
 </script>
 
-<form method="GET" class="navbar-form navbar-left" role="search">
+<form id="frmPesquisar" method="GET" class="navbar-form navbar-left" role="search">
   <div class="form-group">
+    <input type="hidden" id="q_print" name="q_print">
     <input type="hidden" id="q_tipo" name="q_tipo">
     <select class="form-control" id="q_campo"  name="q_campo"></select>
     <select class="form-control" id="q_operador" name="q_operador"></select>
@@ -89,4 +95,7 @@
     <input type="text" class="form-control" placeholder="Complemento" id="q_valor_complemento" name="q_valor_complemento" style="display:none">
   </div>
   <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search" aria-hidden="true"></span> Pesquisar</button>
+  @if(  isset($imprimir) )
+  <button id="btImprimir" class="btn btn-default"><span class="fa fa-file-pdf-o" aria-hidden="true"></span> Imprimir</button>
+  @endif
 </form>
