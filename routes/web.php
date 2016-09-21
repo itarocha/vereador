@@ -40,6 +40,7 @@ Route::get('bairros/{id}/delete', 'BairrosController@delete')->name('bairros.del
 Route::resource('bairros', 'BairrosController');
 
 Route::post('contatos/ligar', 'ContatosController@ligar')->name('contatos.ligar');
+Route::get('contatos/imprimir', 'ContatosController@imprimir')->name('contatos.imprimir');
 Route::get('contatos/{id}/delete', 'ContatosController@delete')->name('contatos.delete');
 Route::resource('contatos', 'ContatosController');
 

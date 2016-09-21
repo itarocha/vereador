@@ -11,8 +11,8 @@ class VerificaPermissoes
     private $livres = array("home.index", "login", "logout",
       "cidades.index","cidades.edit","cidades.create", "cidades.store","cidades.delete",
       "bairros.index","bairros.edit","bairros.create", "bairros.store","bairros.delete",
-      "contatos.index","contatos.ligar"
-                          );
+      "contatos.index","contatos.ligar","contatos.imprimir"
+      );
     private $administrativas = array( "register", "contatos.delete", "usuarios.index",
                                       "usuarios.create", "usuarios.edit", "usuarios.store", "usuarios.delete");
     private $opcionais = array("contatos.create", "contatos.edit", "contatos.store");
