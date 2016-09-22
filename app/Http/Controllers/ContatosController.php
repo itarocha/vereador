@@ -258,8 +258,8 @@ class ContatosController extends Controller
                   'pesquisa'=>$this->dao->getCamposPesquisa(),
                   'titulo'=>'Listagem de Contatos'
                 ]);
-      //return $pdf->stream();
-      return $pdf->download('Contatos.pdf');
+      return $pdf->stream();
+      //return $pdf->download('Contatos.pdf');
 }
 
     // Não serve para nada. Veja store
