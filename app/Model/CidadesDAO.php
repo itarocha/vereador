@@ -6,6 +6,7 @@ namespace App\Model;
 use DB;
 use Auth;
 use Laravel\Database\Exception;
+use Carbon;
 
 class CidadesDAO {
 
