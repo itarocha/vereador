@@ -25,6 +25,7 @@ $(function(){
 				<tr>
           <th>Contato</th>
           <th>Localização</th>
+          <th>Telefones</th>
           <th>Situação</th>
 					<th>Ações</th>
 				</tr>
@@ -40,8 +41,30 @@ $(function(){
             <p class="info small">{{ $item->nome_cidade }}-{{ $item->uf }}</p>
           </td>
           <td>
+            <p class="info small">
+            @if(!empty($item->telefone1))
+            {{ $item->telefone1." "}}<br/>
+            @endif
+            @if(!empty($item->telefone2))
+            {{ $item->telefone2." "}}<br/>
+            @endif
+            @if(!empty($item->telefone3))
+            {{ $item->telefone3." "}}<br/>
+            @endif
+            @if(!empty($item->telefone4))
+            {{ $item->telefone4." "}}<br/>
+            @endif
+            @if(!empty($item->telefone5))
+            {{ $item->telefone5." "}}<br/>
+            @endif
+            @if(!empty($item->telefone6))
+            {{ $item->telefone6." "}}<br/>
+            @endif
+          </p>
+          </td>
+          <td>
             @if($item->ligou == 'S')
-            <p class="info small"> Ligou {{ date('d/m/Y', strtotime($item->data_hora_ligou)) }} - {{ $item->nome_usuario_ligou }}</p>
+            <p class="info small"> {{ $item->nome_usuario_ligou }} </br>ligou em {{ date('d/m/Y', strtotime($item->data_hora_ligou)) }}</p>
             @else
             <span class="label label-danger pull-down pull-down-right">Não Ligou</span>
             @endif

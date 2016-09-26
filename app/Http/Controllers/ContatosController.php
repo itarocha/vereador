@@ -176,10 +176,12 @@ class ContatosController extends Controller
           'telefone3',
           'telefone4',
           'telefone5',
-          'ligou',
-          'id_usuario_ligou',
-          'data_hora_ligou'
         ]);
+
+        //'ligou',
+        //'id_usuario_ligou',
+        //'data_hora_ligou'
+
         // De novo esse código???
         $all['cpf'] = str_replace('.', '', $all['cpf']);
         $all['cpf'] = str_replace('-', '', $all['cpf']);
@@ -190,6 +192,7 @@ class ContatosController extends Controller
           $all['data_nascimento'] = $data_nascimento;
 
           $retorno = $this->dao->update($id,$all);
+          //dd($retorno);
         } else {
           $data_nascimento = Carbon\Carbon::createFromFormat('d/m/Y', $all['data_nascimento']);
           $all['data_nascimento'] = $data_nascimento;
@@ -197,7 +200,12 @@ class ContatosController extends Controller
           $retorno = $this->dao->insert($all);
           //dd($retorno);
         }
-        return redirect('contatos');
+
+        if ($retorno->status == 200) {
+          return redirect('contatos')->with('mensagem',$retorno->mensagem);
+        } else {
+          return redirect('contatos')->with('msgerro',$retorno->mensagem);
+        }
     }
 
     // GET /cidades/{id}/delete

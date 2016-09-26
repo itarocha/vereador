@@ -118,7 +118,12 @@ class CidadesController extends Controller
         } else {
           $retorno = $this->dao->insert($all);
         }
-        return redirect('cidades');
+
+        if ($retorno->status == 200) {
+          return redirect('cidades')->with('mensagem',$retorno->mensagem);
+        } else {
+          return redirect('cidades')->with('msgerro',$retorno->mensagem);
+        }
     }
 
     // GET /cidades/{id}/delete

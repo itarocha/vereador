@@ -124,7 +124,11 @@ class BairrosController extends Controller
         } else {
           $retorno = $this->dao->insert($all);
         }
-        return redirect('bairros');
+        if ($retorno->status == 200) {
+          return redirect('bairros')->with('mensagem',$retorno->mensagem);
+        } else {
+          return redirect('bairros')->with('msgerro',$retorno->mensagem);
+        }
     }
 
     // GET /bairros/{id}/delete
